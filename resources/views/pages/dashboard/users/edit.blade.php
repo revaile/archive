@@ -1,26 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            User &raquo; John Doe &raquo; Edit
+            {{ __('User "' . old('name', $user->name) . '" Edit') }}
         </h2>
     </x-slot>
-
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div>
-                <div class="mb-5" role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        There's something wrong!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>
-                        <ul>
-                            <li>Example error message 1</li>
-                            <li>Example error message 2</li>
-                        </ul>
-                        </p>
-                    </div>
-                </div>
+            <div>   
 
                 <form class="w-full" action="{{ route('dashboard.users.update', $user->id) }}" method="post">
                     @csrf

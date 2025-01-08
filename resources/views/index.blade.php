@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MyBook UI</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
     </head>
 
     <body class="bg-[#F5F6F8]">
@@ -162,7 +163,7 @@
             </div>
             <!-- count -->
             <!-- Count Section -->
-            <section class="py-12">
+            <section class="py-12" data-aos="fade-in">
                 <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center">
                     @foreach ($categories as $category => $data)
                         <div
@@ -227,16 +228,16 @@
                 </div>
 
 
-                <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8">Kerja Praktek</h1>
+                <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Kerja Praktek</h1>
 
                 <!-- Book Container -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 " data-aos="fade-up">
                     @foreach ($kp as $document)
                         <!-- Book Card -->
                         <a href="{{ route('detail', $document->id) }}"
                             class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
                             <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
-                                alt="Book Cover" class="w-full h-85 object-cover" />
+                                alt="Book Cover" class="w-full h-85 object-cover"/>
                             <div class="p-4">
                                 <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
                                 </h2>
@@ -253,10 +254,10 @@
 
             <!-- Section Kp (Proposal) -->
             <section class="max-w-6xl mx-auto px-6 py-8">
-                <h1 id="proposal" class="text-3xl font-bold text-gray-800 mb-8">Proposal</h1>
+                <h1 id="proposal" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Proposal</h1>
 
                 <!-- Book Container for Proposal -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
                     @foreach ($proposals as $document)
                         <!-- Book Card -->
                         <a href="{{ route('detail', $document->id) }}"
@@ -278,9 +279,9 @@
 
             <!-- Section Kp (Skripsi) -->
             <section class="max-w-6xl mx-auto px-6 py-8">
-                <h1 id="ta" class="text-3xl font-bold text-gray-800 mb-8">Skripsi</h1>
+                <h1 id="ta" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Skripsi</h1>
                 <!-- Book Container for Skripsi -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
                     @foreach ($skripsi as $document)
                         <!-- Book Card -->
                         <a href="{{ route('detail', $document->id) }}"
@@ -303,7 +304,7 @@
         </div>
 
 
-        <footer class="bg-yellow-400 text-black py-8 px-6 lg:px-20">
+        <footer class="bg-yellow-400 text-black py-8 px- lg:px-20 " data-aos="fade-up">
             <div class="container mx-auto flex flex-col md:flex-row justify-between">
                 <div class="mb-6 md:mb-0">
                     <img src="{{ asset('images/tech.png') }}" alt="Logo IF" class="inline-block w-20">
@@ -345,7 +346,7 @@
 
 
 
-
+        <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
         <script>
             window.onload = function() {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -361,6 +362,13 @@
                     searchInputKP.value = '';
                 }
             };
+
+            AOS.init({
+                duration: 1200, // Durasi animasi dalam milidetik
+                easing: 'ease-in-out', // Efek easing animasi
+                once: true, // Animasi hanya sekali (tidak akan berulang ketika scroll kembali)
+                mirror: false // Animasi tidak akan muncul saat scrolling ke atas
+            });
         </script>
 
 

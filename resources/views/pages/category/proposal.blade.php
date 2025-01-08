@@ -25,6 +25,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
 </head>
 
 <body class="bg-gray-100 font-sans">
@@ -65,7 +67,7 @@
                     </span>
                     <input type="hidden" name="year" value="{{ request('year') }}">
                 </form>
-                <a href="#" class="px-4 py-2 bg-yellow-400 text-white rounded-full">Login</a>
+                <a href="#" class="px-4 py-2 bg-yellow-400 text-white rounded-full">Sign In</a>
             </div>
         </div>
     </header>
@@ -100,7 +102,7 @@
     <!-- Hero Section End -->
 
     <!-- Content Section Start -->
-    <section class="container mx-auto py-10 max-w-7xl">
+    <section class="container mx-auto py-10 max-w-7xl" data-aos="fade-up">
         <div class="grid grid-cols-1 sm:grid-cols lg:grid-cols-3 gap-6 sm:px-10">
             @foreach ($proposal as $document)
                 <!-- Book Card -->
@@ -121,9 +123,19 @@
     </section>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+
+        AOS.init({
+            duration: 1200, // Durasi animasi dalam milidetik
+            easing: 'ease-in-out', // Efek easing animasi
+            once: true, // Animasi hanya sekali (tidak akan berulang ketika scroll kembali)
+            mirror: false // Animasi tidak akan muncul saat scrolling ke atas
+        });
+    </script>
 </body>
 <!-- Footer Start -->
-<footer class="bg-yellow-400 text-black py-8 px-20">
+<footer class="bg-yellow-400 text-black py-8 px-20" data-aos="fade-up">
     <div class="container mx-auto flex flex-col md:flex-row justify-between">
         <div class="mb-6 md:mb-0">
             <img src="{{ asset('images/tech.png') }}" alt="Logo IF" class="inline-block w-20">

@@ -23,9 +23,6 @@
                                     </div>
                                     <div class="mt-4">
                                         <h2 class="text-3xl font-bold">{{ $card['count'] }}</h2>
-                                        <p class="text-sm">
-                                            <span>{{ $card['completed'] }}</span> Completed
-                                        </p>
                                     </div>
                                 </div>
                             </div>

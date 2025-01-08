@@ -7,7 +7,7 @@
         </div>
 
         <!-- Form Section -->
-        <h2 class="text-xl font-semibold text-gray-700 dark:text-white text-start">Login</h2>
+        <h2 class="text-xl font-semibold text-gray-700 dark:text-white text-start">Sign In</h2>
         <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-4">
             @csrf
 
@@ -55,7 +55,7 @@
             <!-- Submit Button -->
             <div>
                 <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Login
+                    Sign In
                 </button>
             </div>      
         </form>

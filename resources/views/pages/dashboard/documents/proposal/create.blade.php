@@ -157,8 +157,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="file" class="block text-sm font-medium text-gray-700 mb-2">Upload File
-                            PDF</label>
+                        <label for="file" class="block text-sm font-medium text-gray-700 mb-2">Upload BAB 1</label>
                         <div
                             class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
                             <input type="file" name="file" id="file" accept="application/pdf"
@@ -204,25 +203,40 @@
     </div>
 
     <script>
-        document.getElementById('add-upload').addEventListener('click', function() {
+        let currentBab = 1; // Melacak BAB yang sedang ditambahkan
+    
+        document.getElementById('add-upload').addEventListener('click', function () {
             const container = document.getElementById('upload-container');
-
+    
+            // Periksa apakah sudah sampai BAB 4
+            if (currentBab >= 4) {
+                alert('Anda hanya dapat mengunggah sampai BAB 4.');
+                return;
+            }
+    
+            currentBab++; // Tingkatkan BAB ke berikutnya
+    
             // Buat elemen div baru untuk upload PDF
             const newUploadGroup = document.createElement('div');
-            newUploadGroup.classList.add('relative', 'border-2', 'border-dashed', 'border-gray-300', 'rounded-lg',
-                'p-4', 'text-center', 'hover:border-indigo-500', 'transition', 'duration-200');
-
-            // Tambahkan elemen input dan label
+            newUploadGroup.classList.add('mb-4'); // Menambahkan margin bawah seperti pada BAB 1
+    
+            // Tambahkan elemen label dan div untuk input
             newUploadGroup.innerHTML = `
-                <input type="file" name="files[]" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                <div class="flex items-center justify-center">
-                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    <span class="text-gray-600">Pilih file PDF</span>
+                <label for="file-bab-${currentBab}" class="block text-sm font-medium text-gray-700 mb-2">
+                    Upload BAB ${currentBab}
+                </label>
+                <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
+                    <input type="file" id="file-bab-${currentBab}" name="files[]" accept="application/pdf" 
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
+                    <div class="flex items-center justify-center">
+                        <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span class="text-gray-600">Pilih file PDF</span>
+                    </div>
                 </div>
             `;
-
+    
             // Tambahkan elemen ke dalam container
             container.appendChild(newUploadGroup);
         });

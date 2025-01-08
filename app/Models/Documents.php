@@ -20,7 +20,10 @@ class Documents extends Model
             'description',
             'cover',
             'nim',
-            'year'
+            'year',
+            'bab2',
+            'bab3',
+            'bab4',
         ];
 
     public function user()

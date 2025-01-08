@@ -17,7 +17,7 @@
                 <img src="{{ asset('images/tech.png') }}" alt="Prestasi Icon" class="w-10 h-10 sm:w-12 sm:h-12 mr-2">
                 <h1 class="text-lg sm:text-2xl font-bold text-gray-800">Archive Documents</h1>
             </a>
-            
+
             <!-- Hamburger Button -->
             <div class="md:hidden flex items-center">
                 <button id="hamburger-icon" class="text-black focus:outline-none">
@@ -58,22 +58,23 @@
                     @endif
                 @else
                     <a href="{{ route('login') }}"
-                        class="bg-yellow-400 text-white px-4 py-2 sm:px-12 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">Sign In</a>
+                        class="bg-yellow-400 text-white px-4 py-2 sm:px-12 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">Sign
+                        In</a>
                 @endif
             </div>
         </div>
-        <img src="{{ asset('images/Header.png') }}" 
-        alt="Header Image" 
-        class="w-full h-[80vh] object-cover relative sm:-top-4">
-   
+        <img src="{{ asset('images/Header.png') }}" alt="Header Image"
+            class="w-full h-[80vh] object-cover relative sm:-top-4">
+
         <!-- Mobile Menu (hidden by default) -->
-        <div id="mobile-menu" class="md:hidden hidden flex flex-col items-center bg-transparent p-5 absolute top-[80px] left-0 right-0 w-full h-fit">
+        <div id="mobile-menu"
+            class="md:hidden hidden flex flex-col items-center bg-transparent p-5 absolute top-[80px] left-0 right-0 w-full h-fit">
             <a href="{{ route('index') }}" class="text-white py-1">Home</a>
             <a href="{{ route('kp') }}" class="text-white py-1">Kerja Praktek</a>
             <a href="{{ route('proposal') }}" class="text-white py-1">Proposal</a>
             <a href="{{ route('skripsi') }}" class="text-white py-1">Tugas Akhir</a>
             <a href="#ta" class="text-white py-2">About Us</a>
-        </div>        
+        </div>
     </header>
 
     <!-- Add the following JavaScript to toggle the mobile menu -->

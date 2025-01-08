@@ -8,19 +8,40 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-10 flex gap-5">
-                <a href="{{ route('user.mydocuments.create', ['category' => 'kp']) }}"
-                   class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                   + Upload KP
-                </a>
-                <a href="{{ route('user.mydocuments.create', ['category' => 'proposal']) }}"
-                   class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                   + Upload Proposal
-                </a>
-                <a href="{{ route('user.mydocuments.create', ['category' => 'skripsi']) }}"
-                   class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                   + Upload Skripsi
-                </a>
+                @if ($documents->pluck('category')->contains('kp'))
+                    <span class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                        + Upload KP
+                    </span>
+                @else
+                    <a href="{{ route('user.mydocuments.create', ['category' => 'kp']) }}"
+                       class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+                       + Upload KP
+                    </a>
+                @endif
+            
+                @if ($documents->pluck('category')->contains('proposal'))
+                    <span class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                        + Upload Proposal
+                    </span>
+                @else
+                    <a href="{{ route('user.mydocuments.create', ['category' => 'proposal']) }}"
+                       class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+                       + Upload Proposal
+                    </a>
+                @endif
+            
+                @if ($documents->pluck('category')->contains('skripsi'))
+                    <span class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                        + Upload Skripsi
+                    </span>
+                @else
+                    <a href="{{ route('user.mydocuments.create', ['category' => 'skripsi']) }}"
+                       class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+                       + Upload Skripsi
+                    </a>
+                @endif
             </div>
+            
 
             <div class="shadow overflow-hidden sm:rounded-lg">
                 <div class="px-4 py-5 bg-white sm:p-6">

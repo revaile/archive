@@ -20,7 +20,7 @@
             flex-shrink: 0;
         }
     </style>
-    <title>Jejak Prestasi</title>
+    <title>Skripsi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap"

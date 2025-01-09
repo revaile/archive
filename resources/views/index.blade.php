@@ -130,7 +130,7 @@
                 <section class="relative w-full h-full">
                     <!-- Background Image -->
                     <div class="absolute top-0 right-0 w-full h-full bg-contain bg-right bg-no-repeat z-0"
-                        style="background-image: url('{{ asset('images/Image-Hero.png') }}'); border-bottom-right-radius: 50px; overflow: hidden;">
+                        style="background-image: url('{{ asset('images/Image-Hero.png') }}'); border-bottom-right-radius: 70px; overflow: hidden;">
                     </div>
 
                     <!-- Left Content -->
@@ -141,7 +141,7 @@
                                 Showcase Your <br /> Academic Achievements
                             </h2>
                             <p class="text-sm sm:text-base md:text-lg text-gray-700 mt-4 sm:pt-6">
-                                Find and share proposals, internships, and final projects to inspire and be inspired.
+                                Find and share proposals, internships, and final projects to <br>inspire and be inspired.
                             </p>
                             <button onclick="handleRedirect()"
                                 class="px-4 sm:px-6 py-2 bg-[#facc15] text-white font-semibold rounded-full hover:bg-gray-700 transform hover:scale-105 transition-transform duration-300">
@@ -216,7 +216,7 @@
 
                         <div class="flex gap-2">
                             <button type="submit"
-                                class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                class="px-6 py-3 bg-[#facc15] text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 Apply Filter
                             </button>
                             <a href="{{ route('page') }}"
@@ -241,7 +241,7 @@
                             <div class="p-4">
                                 <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
                                 </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->nim }}</p>
+                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}</p>
                                 <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                                 <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
                             </div>
@@ -267,7 +267,7 @@
                             <div class="p-4">
                                 <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
                                 </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->nim }}</p>
+                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}</p>
                                 <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                                 <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
                             </div>
@@ -291,7 +291,7 @@
                             <div class="p-4">
                                 <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
                                 </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->nim }}</p>
+                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}</p>
                                 <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                                 <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
                             </div>

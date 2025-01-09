@@ -13,9 +13,9 @@
 
             <!-- Email -->
             <div>
-                <label for="email" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Email</label>
+                <label for="email" class="block text-sm font-medium text-gray-600 dark:text-gray-300">NIM / NIP</label>
                 <input
-                    type="email"
+                    type="text"
                     id="email"
                     name="email"
                     required

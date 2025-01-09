@@ -105,7 +105,7 @@
     <main class="flex-1">
         <div class="relative flex flex-row gap-8 w-full max-w-7xl mx-auto transform -translate-y-1/4 mt-16">
             <!-- Section Detail -->
-            <section class="bg-white p-8 max-w-4xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl"  data-aos="fade-up">
+            <section class="bg-white p-8 max-w-4xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl" >
                 <div class="flex flex-col md:flex-row items-start">
                     <div class="md:w-1/3 flex justify-center flex-col items-center">
                         <!-- Link untuk download gambar -->
@@ -117,7 +117,7 @@
                                 class="rounded-lg shadow-lg w-full h-auto transform transition duration-300 ease-in-out hover:scale-110">
                         </a>
 
-                        <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
+                        <div class="mt-4 w-full flex flex-col items-center"  >
                             <!-- Judul BAB 1 -->
                             <h2 class="text-xl font-bold mb-4">BAB 1</h2>
 
@@ -130,7 +130,7 @@
                         </div>
                         <!-- BAB 2-4 (Hanya untuk Pengguna yang Sudah Login) -->
                         @auth
-                            <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
+                            <div class="mt-4 w-full flex flex-col items-center" >
                                 <h2 class="text-xl font-bold mb-4">BAB 2</h2>
                                 <a href="{{ asset('storage/' . $document->bab2) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
@@ -139,7 +139,7 @@
                                 </a>
                             </div>
 
-                            <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
+                            <div class="mt-4 w-full flex flex-col items-center"  >
                                 <h2 class="text-xl font-bold mb-4">BAB 3</h2>
                                 <a href="{{ asset('storage/' . $document->bab3) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
@@ -148,7 +148,7 @@
                                 </a>
                             </div>
 
-                            <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
+                            <div class="mt-4 w-full flex flex-col items-center"  >
                                 <h2 class="text-xl font-bold mb-4">BAB 4</h2>
                                 <a href="{{ asset('storage/' . $document->bab4) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
@@ -177,7 +177,7 @@
 
                         <!-- Informasi NIM, Year, dan Category -->
                         <p class="text-lg sm:text-xl text-gray-500 mb-4">
-                            <strong>NIM:</strong> {{ $document->nim }} <br>
+                            <strong>NIM:</strong> {{ $document->user->email ?? 'No Email' }} <br>
                             <strong>Year:</strong> {{ $document->year }} <br>
                             <strong>Category:</strong> {{ ucfirst($document->category) }}
                         </p>
@@ -195,7 +195,7 @@
             </section>
 
             <!-- Related Books -->
-            <section class="p-4 sm:p-8 max-w-md flex-1"  data-aos="fade-up">
+            <section class="p-4 sm:p-8 max-w-md flex-1"  >
                 <h1 class=" text-white font-bold text-sm mb-4 sm:text-xl">Related Documents</h1>
                 <div class="grid gap-6">
                     @foreach ($relatedDocuments as $related)
@@ -207,7 +207,7 @@
                                 <div class="">
                                     <h2 class="text-[10px] sm:text-lg font-bold text-gray-800">{{ $related->title }}
                                     </h2>
-                                    <p class="text-[8px] sm:text-sm text-gray-600">By NIM: {{ $related->nim }}</p>
+                                    {{-- <p class="text-[8px] sm:text-sm text-gray-600">By NIM: {{ $document->user->email ?? 'No Email' }}</p> --}}
                                     <p class="text-[8px] sm:text-sm text-gray-600">Year: {{ $related->year }}</p>
                                     <p class="text-[8px] sm:text-sm text-gray-600">Description:
                                         {{ $related->description }}</p>

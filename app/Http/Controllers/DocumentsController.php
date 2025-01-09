@@ -77,48 +77,53 @@ class DocumentsController extends Controller
     return view('home', compact('categories'));
     }
    
+
     public function page(Request $request)
 {
-   // Ambil semua tahun unik dari tabel 'documents'
-   $years = Documents::distinct()->pluck('year');
+    // Ambil semua tahun unik dari tabel 'documents'
+    $years = Documents::distinct()->pluck('year');
 
-   // Query data dokumen
-   $documentsQuery = Documents::query();
+    // Query data dokumen
+    $documentsQuery = Documents::query();
 
-   // Filter dokumen berdasarkan pencarian umum
-   if ($request->has('search') && $request->search != '') {
-       $search = $request->search;
-       $documentsQuery->where(function ($query) use ($search) {
-           $query->where('title', 'like', "%$search%")
-                 ->orWhere('nim', 'like', "%$search%")
-                 ->orWhere('description', 'like', "%$search%");
-       });
-   }
+    // Filter dokumen berdasarkan pencarian umum
+    if ($request->has('search') && $request->search != '') {
+        $search = $request->search;
+        $documentsQuery->where(function ($query) use ($search) {
+            $query->where('title', 'like', "%$search%")
+                ->orWhere('nim', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%");
+        });
+    }
 
-   // Filter dokumen berdasarkan kategori
-   if ($request->has('category') && $request->category != '') {
-       $documentsQuery->where('category', $request->category);
-   }
+    // Filter dokumen berdasarkan kategori
+    if ($request->has('category') && $request->category != '') {
+        $documentsQuery->where('category', $request->category);
+    }
 
-   // Filter dokumen berdasarkan tahun
-   if ($request->has('year') && $request->year != '') {
-       $documentsQuery->where('year', $request->year);
-   }
+    // Filter dokumen berdasarkan tahun
+    if ($request->has('year') && $request->year != '') {
+        $documentsQuery->where('year', $request->year);
+    }
 
-   // Ambil hasil pencarian dokumen
-   $documents = $documentsQuery->select('id', 'nim', 'year', 'title', 'description', 'cover', 'category')->get();
+    // Ambil hasil pencarian dokumen dan load relasi user
+    $documents = $documentsQuery
+        ->select('id', 'nim', 'year', 'title', 'description', 'cover', 'category', 'user_id')
+        ->with('user:id,email') // Pastikan relasi user di-load
+        ->get();
 
-   // Menghitung jumlah dokumen berdasarkan kategori
-   $categories = Documents::select('category')
-       ->selectRaw('count(*) as count')
-       ->groupBy('category')
-       ->get()
-       ->keyBy('category');
+    // Menghitung jumlah dokumen berdasarkan kategori
+    $categories = Documents::select('category')
+        ->selectRaw('count(*) as count')
+        ->groupBy('category')
+        ->get()
+        ->keyBy('category');
 
-   $categories = $categories->map(function ($item) {
-       $item->title = ucfirst($item->category);
-       return $item;
-   });
+    $categories = $categories->map(function ($item) {
+        $item->title = ucfirst($item->category);
+        return $item;
+    });
+
     // Pisahkan dokumen berdasarkan kategori
     $kp = $documents->filter(function ($doc) {
         return strtolower($doc->category) === 'kp';
@@ -133,8 +138,9 @@ class DocumentsController extends Controller
     });
 
     // Kirim data ke view
-    return view('index', compact('categories', 'kp', 'proposals', 'skripsi','documents', 'years'));
+    return view('index', compact('categories', 'kp', 'proposals', 'skripsi', 'documents', 'years'));
 }
+
 
 
     

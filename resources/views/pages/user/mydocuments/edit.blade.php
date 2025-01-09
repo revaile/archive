@@ -17,16 +17,16 @@
                     <!-- Tambahkan Input Hidden untuk Category -->
                     <input type="hidden" name="category" value="{{ old('category', $document->category) }}">
 
-                    <!-- User ID Dropdown -->
+                    {{-- <!-- User ID Dropdown -->
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                 for="user_id">
-                                User_ID
+                                NIM
                             </label>
                             <input list="user_list" name="user_id" id="user_id" placeholder="user_id"
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                value="{{ old('user_id', $document->user_id) }}"
+                                value="{{ $document->user->email ?? 'No Email' }}"
                                 {{ empty($users) ? 'disabled' : 'required' }}>
                             <datalist id="user_list">
                                 @if (!empty($users) && $users->count())
@@ -41,7 +41,7 @@
                                 @endif
                             </datalist>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                     <!-- Angkatan -->

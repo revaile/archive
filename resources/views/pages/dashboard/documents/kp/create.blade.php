@@ -30,8 +30,8 @@
                             <datalist id="user_list">
                                 @if (!empty($users) && $users->count())
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }} (ID:
-                                            {{ $user->id }})</option>
+                                        <option value="{{ $user->id }}">{{ $user->name }} (Nim:
+                                            {{ $user->email }})</option>
                                     @endforeach
                                 @else
                                     <option value="">No users available</option>
@@ -42,16 +42,16 @@
 
                     <!-- nim -->
                     <!-- nim -->
-                    <div class="flex flex-wrap -mx-3 mb-6">
+                    {{-- <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nim">
                                 NIM
                             </label>
                             <input name="nim"
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="nim" type="text" placeholder="NIM" value="{{ old('nim') }}" required>
+                                id="nim" type="text" placeholder="NIM" value="{{ old('nim') }}" >
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- angkatan -->
                 <!-- Angkatan -->
                 <div class="flex flex-wrap -mx-3 mb-6">
@@ -158,7 +158,7 @@
                     </div>
                     
                     <div class="flex justify-end">
-                        <a href="#" class="bg-gray-500 text-white py-2 px-4 rounded shadow-sm hover:bg-gray-700">
+                        <a href="{{ route('dashboard.documents.index') }}" class="bg-gray-500 text-white py-2 px-4 rounded shadow-sm hover:bg-gray-700">
                             Batal
                         </a>
                         <button type="submit" class="ml-3 bg-blue-500 text-white py-2 px-4 rounded shadow-sm hover:bg-blue-700">

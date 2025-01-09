@@ -17,29 +17,29 @@
                     <!-- Tambahkan Input Hidden untuk Category -->
                     <input type="hidden" name="category" value="{{ old('category', $document->category) }}">
 
-                    <!-- User ID Dropdown -->
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                 for="user_id">
-                                User_ID
+                                NIM
                             </label>
-                            <input list="user_list" name="user_id" id="user_id" placeholder="user_id"
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                value="{{ old('user_id', $document->user_id) }}"
-                                {{ empty($users) ? 'disabled' : 'required' }}>
-                            <datalist id="user_list">
-                                @if (!empty($users) && $users->count())
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"
-                                            {{ $document->user_id == $user->id ? 'selected' : '' }}>
-                                            {{ $user->name }} (ID: {{ $user->id }})
-                                        </option>
-                                    @endforeach
-                                @else
-                                    <option value="">No users available</option>
-                                @endif
-                            </datalist>
+                            <div id="user_id"
+                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                {{ $document->user ? $document->user->email : 'N/A' }} </div>
+                        </div>
+                    </div>
+                    <!-- User ID Dropdown -->
+                 
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                for="user_id">
+                                User
+                            </label>
+                            <div id="user_id"
+                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                {{ $document->user ? $document->user->name : 'N/A' }}
+                            </div>
                         </div>
                     </div>
 
@@ -110,7 +110,7 @@
                         </div>
                     </div>
 
-                    <!-- Submission Date -->
+                    {{-- <!-- Submission Date -->
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -123,9 +123,9 @@
                                 value="{{ old('submission_date', date('Y-m-d', strtotime($document->submission_date))) }}"
                                 readonly>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <!-- Review Date -->
+                    {{-- <!-- Review Date -->
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -138,7 +138,7 @@
                                 value="{{ old('review_date', $document->review_date ? date('Y-m-d', strtotime($document->review_date)) : '') }}"
                                 readonly>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                    <!-- Upload Cover -->

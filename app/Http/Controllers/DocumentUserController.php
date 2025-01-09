@@ -23,18 +23,21 @@ class DocumentUserController extends Controller
     /**
      * Show the form for creating a new document.
      */
-public function create($category)
-{
-    // Pastikan hanya kategori yang diizinkan
-    $allowedCategories = ['kp', 'proposal', 'skripsi'];
-
-    if (!in_array($category, $allowedCategories)) {
-        abort(404); // Jika kategori tidak valid, kembalikan halaman 404
+    public function create($category)
+    {
+        // Pastikan hanya kategori yang diizinkan
+        $allowedCategories = ['kp', 'proposal', 'skripsi'];
+    
+        if (!in_array($category, $allowedCategories)) {
+            abort(404); // Jika kategori tidak valid, kembalikan halaman 404
+        }
+    
+        // Ambil email pengguna yang sedang login
+        $email = Auth::user()->email ?? null;
+    
+        // Kirim variabel ke view
+        return view("pages.user.mydocuments.$category.create", compact('category', 'email'));
     }
-
-    // Kirim variabel category ke view
-    return view("pages.user.mydocuments.$category.create", compact('category'));
-}
 
 
     /**

@@ -83,11 +83,11 @@
                     <table id="crudTable" class="min-w-full table-auto border-collapse border border-gray-200">
                         <thead>
                             <tr class="bg-gray-100 text-gray-700">
-                                <th class="px-4 py-3 text-left">User ID</th>
+                                <th class="px-4 py-3 text-left">Nim</th>
                                 <th class="px-4 py-3 text-left">Angkatan</th> <!-- Tambahkan Kolom Baru -->
                                 <th class="px-4 py-3 text-left">Judul</th>
-                                <th class="px-4 py-3 text-left">Kategori</th>
-                                <th class="px-4 py-3 text-left">Deskripsi</th>
+                                <th class="px-4 py-3 text-center">Kategori</th>
+                                <th class="px-4 py-3 text-center">Deskripsi</th>
                                 <th class="px-4 py-3 text-left">Status</th>
                                 <th class="px-4 py-3 text-left">Cover</th>
                                 <th class="px-4 py-3 text-left">Aksi</th>
@@ -96,13 +96,13 @@
                         <tbody>
                             @foreach ($documents as $document)
                                 <tr class="hover:bg-gray-100 transition duration-150">
-                                    <td class="px-4 py-3">{{ $document->user ? $document->user->id : 'N/A' }}</td>
+                                    <td class="px-4 py-3">{{ $document->user ? $document->user->email : 'N/A' }}</td>
                                     <td class="px-4 py-3">{{ $document->year ?? 'N/A' }}</td> <!-- Kolom Years -->
                                     <td class="px-4 py-3 truncate max-w-[7rem]" title="{{ $document->title }}">
                                         {{ $document->title }}
                                     </td>
-                                    <td class="px-4 py-3">{{ ucfirst($document->category) }}</td>
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-3 text-center">{{ ucfirst($document->category) }}</td>
+                                    <td class="px-4 py-3 text-center">
                                         <div class="truncate w-40" title="{{ $document->description }}">
                                             {{ $document->description }}
                                         </div>

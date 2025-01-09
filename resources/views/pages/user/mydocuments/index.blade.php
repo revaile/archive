@@ -9,39 +9,42 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-10 flex gap-5">
                 @if ($documents->pluck('category')->contains('kp'))
-                    <span class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                    <span
+                        class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
                         + Upload KP
                     </span>
                 @else
                     <a href="{{ route('user.mydocuments.create', ['category' => 'kp']) }}"
-                       class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                       + Upload KP
+                        class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+                        + Upload KP
                     </a>
                 @endif
-            
+
                 @if ($documents->pluck('category')->contains('proposal'))
-                    <span class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                    <span
+                        class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
                         + Upload Proposal
                     </span>
                 @else
                     <a href="{{ route('user.mydocuments.create', ['category' => 'proposal']) }}"
-                       class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                       + Upload Proposal
+                        class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+                        + Upload Proposal
                     </a>
                 @endif
-            
+
                 @if ($documents->pluck('category')->contains('skripsi'))
-                    <span class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                    <span
+                        class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
                         + Upload Skripsi
                     </span>
                 @else
                     <a href="{{ route('user.mydocuments.create', ['category' => 'skripsi']) }}"
-                       class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                       + Upload Skripsi
+                        class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+                        + Upload Skripsi
                     </a>
                 @endif
             </div>
-            
+
 
             <div class="shadow overflow-hidden sm:rounded-lg">
                 <div class="px-4 py-5 bg-white sm:p-6">
@@ -50,47 +53,53 @@
                             <tr class="bg-gray-100 text-gray-700">
                                 <th class="px-4 py-3 text-left">NIM</th>
                                 <th class="px-4 py-3 text-center">Judul</th>
-                                <th class="px-4 py-3 text-left">Deskripsi</th>
+                                <th class="px-4 py-3 text-center">Deskripsi</th>
                                 <th class="px-4 py-3 text-left">Kategori</th>
                                 <th class="px-4 py-3 text-left">Tahun</th>
                                 <th class="px-4 py-3 text-left">Status</th>
                                 <th class="px-4 py-3 text-left">Cover</th>
-                                <th class="px-4 py-3 text-left">File</th>
                                 <th class="px-4 py-3 text-left">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($documents as $document)
                                 <tr class="hover:bg-gray-100 transition duration-150">
-                                    <td class="px-4 py-3">{{ $document->nim }}</td>
-                                    <td class="px-10 py-3 text-center">{{ $document->title }}</td>
-                                    <td class="px-4 py-3">
-                                        <div class="truncate w-40" title="{{ $document->description }}">
+                                    <td class="px-4 py-3">{{ $document->user->email ?? 'No Email' }}</td>
+                                    <td class="px-10 py-3 text-center">
+                                        <div class="truncate w-40 overflow-hidden text-ellipsis" title="{{ $document->title }}">
+                                            {{ $document->title }}
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        <div class="truncate w-40 overflow-hidden text-ellipsis" title="{{ $document->description }}">
                                             {{ $document->description }}
                                         </div>
-                                    </td>                                    <td class="px-4 py-3">{{ ucfirst($document->category) }}</td>
+                                    </td>                                                                      <td class="px-4 py-3">{{ ucfirst($document->category) }}</td>
                                     <td class="px-4 py-3">{{ $document->year ?? 'N/A' }}</td> <!-- Kolom Years -->
                                     <td class="px-4 py-3">
-                                        <span class="{{ $document->status == 'approved' ? 'bg-green-400' : 'bg-yellow-400' }} text-white px-3 py-1 rounded">
+                                        <span
+                                            class="{{ $document->status == 'approved' ? 'bg-green-400' : 'bg-yellow-400' }} text-white px-3 py-1 rounded">
                                             {{ ucfirst($document->status) }}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3">
-                                        @if($document->cover)
-                                            <img src="{{ asset('storage/' . $document->cover) }}" alt="Cover Image" class="w-16 h-16 object-cover rounded-full ">
+                                        @if ($document->cover)
+                                            <img src="{{ asset('storage/' . $document->cover) }}" alt="Cover Image"
+                                                class="w-16 h-16 object-cover rounded-full ">
                                         @else
                                             <span class="text-gray-500">No Cover</span>
                                         @endif
                                     </td>
-                                    <td class="px-4 py-3">
-                                        <a href="{{ Storage::url($document->file_path) }}" class="text-blue-500 hover:underline">Download</a>
-                                    </td>
+
                                     <td class="px-4 py-3 flex gap-2">
-                                        <a href="{{ route('user.mydocuments.edit', $document->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded">Edit</a>
-                                        <form action="{{ route('user.mydocuments.destroy', $document->id) }}" method="POST" class="inline">
+                                        <a href="{{ route('user.mydocuments.edit', $document->id) }}"
+                                            class="bg-blue-500 text-white px-3 py-1 rounded">Edit</a>
+                                        <form action="{{ route('user.mydocuments.destroy', $document->id) }}"
+                                            method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded" onclick="return confirm('Are you sure?')">Hapus</button>
+                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded"
+                                                onclick="return confirm('Are you sure?')">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $document->title }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
 </head>
 
 <body class="bg-[#F5F6F8] min-h-screen flex flex-col">
@@ -13,10 +15,7 @@
     <header class="relative">
         <div class="container mx-auto px-10 py-6 sm:py-10 flex items-center justify-between w-full">
             <!-- Logo -->
-            <a href="#" class="flex items-center flex-row justify-start">
-                <img src="{{ asset('images/tech.png') }}" alt="Prestasi Icon" class="w-10 h-10 sm:w-12 sm:h-12 mr-2">
-                <h1 class="text-lg sm:text-2xl font-bold text-gray-800">Archive Documents</h1>
-            </a>
+            
 
             <!-- Hamburger Button -->
             <div class="md:hidden flex items-center">
@@ -30,7 +29,12 @@
             </div>
 
             <!-- Navigation -->
-            <div class="hidden md:flex items-center justify-center gap-4 w-full mx-auto">
+            <a href="#" class="flex flex-row items-center">
+                <img src="{{ asset('images/tech.png') }}" alt="Prestasi Icon" class="w-10 h-10 sm:w-12 sm:h-12 mr-2">
+                <h1 class="col-span-1 sm:col-span-2 text-lg sm:text-2xl font-bold text-gray-800">Archive Documents</h1>
+            </a>
+            
+            <div class="hidden md:flex items-center justify-center gap-4 mx-auto">
                 <nav class="space-x-8 text-gray-600">
                     <a href="{{ route('index') }}"
                         class="text-black transform hover:scale-105 transition-transform duration-300">Home</a>
@@ -101,7 +105,7 @@
     <main class="flex-1">
         <div class="relative flex flex-row gap-8 w-full max-w-7xl mx-auto transform -translate-y-1/4 mt-16">
             <!-- Section Detail -->
-            <section class="bg-white p-8 max-w-4xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl">
+            <section class="bg-white p-8 max-w-4xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl"  data-aos="fade-up">
                 <div class="flex flex-col md:flex-row items-start">
                     <div class="md:w-1/3 flex justify-center flex-col items-center">
                         <!-- Link untuk download gambar -->
@@ -113,7 +117,7 @@
                                 class="rounded-lg shadow-lg w-full h-auto transform transition duration-300 ease-in-out hover:scale-110">
                         </a>
 
-                        <div class="mt-4 w-full flex flex-col items-center">
+                        <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
                             <!-- Judul BAB 1 -->
                             <h2 class="text-xl font-bold mb-4">BAB 1</h2>
 
@@ -126,27 +130,27 @@
                         </div>
                         <!-- BAB 2-4 (Hanya untuk Pengguna yang Sudah Login) -->
                         @auth
-                            <div class="mt-4 w-full flex flex-col items-center">
+                            <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
                                 <h2 class="text-xl font-bold mb-4">BAB 2</h2>
-                                <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank" class="relative">
+                                <a href="{{ asset('storage/' . $document->bab2) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                         alt="{{ $document->title }}"
                                         class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                                 </a>
                             </div>
 
-                            <div class="mt-4 w-full flex flex-col items-center">
+                            <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
                                 <h2 class="text-xl font-bold mb-4">BAB 3</h2>
-                                <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank" class="relative">
+                                <a href="{{ asset('storage/' . $document->bab3) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                         alt="{{ $document->title }}"
                                         class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                                 </a>
                             </div>
 
-                            <div class="mt-4 w-full flex flex-col items-center">
+                            <div class="mt-4 w-full flex flex-col items-center"  data-aos="fade-up">
                                 <h2 class="text-xl font-bold mb-4">BAB 4</h2>
-                                <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank" class="relative">
+                                <a href="{{ asset('storage/' . $document->bab4) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                         alt="{{ $document->title }}"
                                         class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
@@ -191,7 +195,7 @@
             </section>
 
             <!-- Related Books -->
-            <section class="p-4 sm:p-8 max-w-md flex-1">
+            <section class="p-4 sm:p-8 max-w-md flex-1"  data-aos="fade-up">
                 <h1 class=" text-white font-bold text-sm mb-4 sm:text-xl">Related Documents</h1>
                 <div class="grid gap-6">
                     @foreach ($relatedDocuments as $related)
@@ -215,6 +219,32 @@
             </section>
         </div>
     </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchInputKP = document.querySelector('input[name="search_kp"]');
+
+            // Pastikan input terisi dari URL jika ada parameter
+            if (urlParams.has('search_kp')) {
+                searchInputKP.value = urlParams.get('search_kp');
+            }
+
+            // Jika query kosong, kosongkan input
+            if (!searchInputKP.value.trim()) {
+                searchInputKP.value = '';
+            }
+        };
+
+        AOS.init({
+            duration: 1000, // Durasi animasi dalam milidetik
+            easing: 'ease-in-out', // Efek easing animasi
+            once: true, // Animasi hanya sekali (tidak akan berulang ketika scroll kembali)
+            mirror: false // Animasi tidak akan muncul saat scrolling ke atas
+        });
+    </script>
 
 </body>
 <footer class="bg-yellow-400 text-black py-8 px-6 lg:px-20">

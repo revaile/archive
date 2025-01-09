@@ -41,15 +41,20 @@
             <!-- Chart.js Script -->
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
+                // Mengambil data count dari PHP dan mengonversinya menjadi array JavaScript
+                const cardCounts = @json($cards); // Menambahkan data count ke JavaScript
+                const counts = cardCounts.map(card => card.count); // Ambil count dari setiap card
+
+                // Chart.js
                 const barCtx = document.getElementById('barChart').getContext('2d');
 
                 const barChart = new Chart(barCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['Users', 'Skripsi', 'Proposal', 'Kerja Praktek'],
+                        labels: ['Users', 'Skripsi', 'Proposal', 'Kerja Praktek'], // Label ini bisa disesuaikan
                         datasets: [{
                             label: 'Data Distribution',
-                            data: [1888, 132, 12, 76],
+                            data: counts, // Gunakan data count yang sudah diambil
                             backgroundColor: [
                                 'rgba(59, 130, 246, 0.7)',
                                 'rgba(16, 185, 129, 0.7)',

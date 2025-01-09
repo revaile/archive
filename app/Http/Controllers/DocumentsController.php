@@ -359,6 +359,10 @@ public function proposal(Request $request)
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB limit untuk gambar
             'nim' => 'nullable|string|max:20',
             'description' => 'required|string',
+            'bab2' => 'nullable|file|mimes:pdf|max:51200', // Bab 2 opsional
+            'bab3' => 'nullable|file|mimes:pdf|max:51200', // Bab 3 opsional
+            'bab4' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 opsional
+            
         ]);
     
         // Simpan file di folder 'documents' di disk 'public'
@@ -368,11 +372,34 @@ public function proposal(Request $request)
           $coverPath = $request->hasFile('cover')
           ? $request->file('cover')->store('covers', 'public')
           : null;
+
+             // Simpan cover jika diberikan
+            $coverPath = $request->hasFile('cover')
+            ? $request->file('cover')->store('covers', 'public')
+            : null;
+
+        // Simpan file Bab 2 jika diberikan
+        $bab2Path = $request->hasFile('bab2')
+            ? $request->file('bab2')->store('bab2', 'public')
+            : null;
+
+        // Simpan file Bab 3 jika diberikan
+        $bab3Path = $request->hasFile('bab3')
+            ? $request->file('bab3')->store('bab3', 'public')
+            : null;
+
+        // Simpan file Bab 4 jika diberikan
+        $bab4Path = $request->hasFile('bab4')
+            ? $request->file('bab4')->store('bab4', 'public')
+            : null;
+
     
         // Tentukan user_id, jika admin dan user_id disediakan gunakan itu, jika tidak gunakan Auth::id()
         $userId = Auth::user()->is_admin && $request->user_id 
                   ? $request->user_id 
                   : Auth::id();
+
+                
     
         // Simpan data ke database
         Documents::create([
@@ -387,7 +414,9 @@ public function proposal(Request $request)
             'cover' => $coverPath, // Simpan path cover jika ada
             'nim' => $request->nim,
             'description' => $request->description,
-
+            'bab2' => $bab2Path, // Simpan path Bab 2 jika ada
+            'bab3' => $bab3Path, // Simpan path Bab 3 jika ada
+            'bab4' => $bab4Path, // Simpan path Bab 4 jika ada
 
 
         ]);
@@ -425,6 +454,9 @@ public function proposal(Request $request)
             'description' => 'required|string',
             'year' => 'nullable|integer|min:1900|max:' . date('Y'),
             'nim' => 'nullable|string|max:20',
+            'bab2' => 'nullable|file|mimes:pdf|max:51200', // Bab 2 opsional
+            'bab3' => 'nullable|file|mimes:pdf|max:51200', // Bab 3 opsional
+            'bab4' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 
             
         ]);
 
@@ -439,6 +471,23 @@ public function proposal(Request $request)
             $coverPath = $request->file('cover')->store('covers', 'public');
         }
 
+         // Perbarui file Bab 2 jika ada
+         $bab2Path = $document->bab2;
+         if ($request->hasFile('bab2')) {
+             $bab2Path = $request->file('bab2')->store('bab2', 'public');
+         }
+     
+         // Perbarui file Bab 3 jika ada
+         $bab3Path = $document->bab3;
+         if ($request->hasFile('bab3')) {
+             $bab3Path = $request->file('bab3')->store('bab3', 'public');
+         }
+     
+         // Perbarui file Bab 4 jika ada
+         $bab4Path = $document->bab4;
+         if ($request->hasFile('bab4')) {
+             $bab4Path = $request->file('bab4')->store('bab4', 'public');
+         }
         
 
         $document->update([
@@ -451,7 +500,9 @@ public function proposal(Request $request)
             'nim' => $request->nim,
             'file_path' => $filePath,
             'cover' => $coverPath,
-
+            'bab2' => $bab2Path,
+            'bab3' => $bab3Path,
+            'bab4' => $bab4Path,
 
 
 
@@ -460,25 +511,25 @@ public function proposal(Request $request)
         return redirect()->route('dashboard.documents.index')->with('success', 'Document updated successfully.');
     }
 
-    public function updateStatus(Request $request, Documents $document)
-{
-    $request->validate([
-        'status' => 'required|in:pending,approved,rejected',
-    ]);
+        public function updateStatus(Request $request, Documents $document)
+        {
+            $request->validate([
+                'status' => 'required|in:pending,approved,rejected',
+            ]);
 
-    $document->status = $request->status;
+            $document->status = $request->status;
 
-    // Jika status rejected, tambahkan alasan penolakan
-    // if ($request->status == 'rejected') {
-    //     $document->rejection_reason = $request->input('rejection_reason', 'No reason provided');
-    // } else {
-    //     $document->rejection_reason = null;
-    // }
+            // Jika status rejected, tambahkan alasan penolakan
+            // if ($request->status == 'rejected') {
+            //     $document->rejection_reason = $request->input('rejection_reason', 'No reason provided');
+            // } else {
+            //     $document->rejection_reason = null;
+            // }
 
-    $document->save();
+            $document->save();
 
-    return redirect()->route('dashboard.documents.index', $document)->with('success', 'Status updated successfully.');
-}
+            return redirect()->route('dashboard.documents.index', $document)->with('success', 'Status updated successfully.');
+    }
 
 
     /**

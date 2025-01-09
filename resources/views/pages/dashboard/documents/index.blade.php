@@ -89,7 +89,7 @@
                                 <th class="px-4 py-3 text-left">Kategori</th>
                                 <th class="px-4 py-3 text-left">Deskripsi</th>
                                 <th class="px-4 py-3 text-left">Status</th>
-                                <th class="px-4 py-3 text-left">File</th>
+                                <th class="px-4 py-3 text-left">Cover</th>
                                 <th class="px-4 py-3 text-left">Aksi</th>
                             </tr>
                         </thead>
@@ -125,8 +125,7 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3">
-                                        <a href="{{ Storage::url($document->file_path) }}"
-                                            class="text-blue-500 hover:underline">Download</a>
+                                        <img src="{{ asset('storage/' . $document->cover) }}" alt="Cover Image" class="w-16 h-16 object-cover rounded-full ">
                                     </td>
                                     <td class="px-4 py-3 flex gap-2">
                                         <a href="{{ route('dashboard.documents.edit', $document->id) }}"

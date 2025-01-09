@@ -174,7 +174,7 @@
                     <!-- File Path -->
                     @if ($document->file_path)
                         <div class="mb-6">
-                            <p class="text-gray-700"><strong>File:</strong></p>
+                            <p class="text-gray-700"><strong>BAB 1:</strong></p>
                             <div class="flex items-center gap-4 mt-2">
                                 @if (in_array(pathinfo($document->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'pdf']))
                                     <iframe src="{{ Storage::url($document->file_path) }}"
@@ -188,13 +188,45 @@
                             <p class="text-red-500 font-bold">No Document Uploaded</p>
                         </div>
                     @endif
-
-
-
-
-
-
-
+                    @if ($document->bab2)
+                    <div class="mb-6">
+                        <p class="text-gray-700"><strong>BAB 2:</strong></p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <iframe src="{{ Storage::url($document->bab2) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                        </div>
+                    </div>
+                @else
+                    <div class="mb-6">
+                        <p class="text-red-500 font-bold">No Document Uploaded</p>
+                    </div>
+                @endif
+                
+                @if ($document->bab3)
+                    <div class="mb-6">
+                        <p class="text-gray-700"><strong>BAB 3:</strong></p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <iframe src="{{ Storage::url($document->bab3) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                        </div>
+                    </div>
+                @else
+                    <div class="mb-6">
+                        <p class="text-red-500 font-bold">No Document Uploaded</p>
+                    </div>
+                @endif
+                
+                @if ($document->bab4)
+                    <div class="mb-6">
+                        <p class="text-gray-700"><strong>BAB 4:</strong></p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <iframe src="{{ Storage::url($document->bab4) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                        </div>
+                    </div>
+                @else
+                    <div class="mb-6">
+                        <p class="text-red-500 font-bold">No Document Uploaded</p>
+                    </div>
+                @endif
+                
                     <!-- Submit Button -->
                     <!-- Status Update Section -->
                     <div class="bg-white shadow-md rounded-lg p-6 mt-8">

@@ -61,21 +61,6 @@ class DocumentsController extends Controller
     }
     
 
-
-    public function home(){
-        $categories = Documents::select('category')
-        ->selectRaw('count(*) as count')
-        ->groupBy('category')
-        ->get()
-        ->keyBy('category');
-
-        $categories = $categories->map(function($item) {
-            $item->title = ucfirst($item->category);  // Menambahkan title berdasarkan category
-            return $item;
-        });
-
-    return view('home', compact('categories'));
-    }
    
 
     public function page(Request $request)
@@ -162,62 +147,74 @@ public function detail($id)
 
 public function kp(Request $request)
 {
-    // ambil documents
-    $query = Documents::where('category', 'kp'); // Data kategori Kerja Praktek
-    // search
-    $search = $request->input('search'); // Ambil parameter search dari request
-    // ambil taun
-    $year = $request->input('year'); // Ambil parameter tahun dari request
+    // Ambil documents kategori "kp"
+    $query = Documents::where('category', 'kp');
+
+    // Ambil parameter search dan year
+    $search = $request->input('search');
+    $year = $request->input('year');
     
+    // Filter berdasarkan tahun jika ada
     if ($year) {
-        $query->where('year', $year); // Tambahkan filter tahun jika parameter year ada
+        $query->where('year', $year);
     }
 
-       // Filter berdasarkan pencarian jika ada
-       if ($search) {
-        $query->where('title', 'like', '%' . $search . '%'); // Filter berdasarkan title
+    // Filter berdasarkan pencarian jika ada (gunakan ILIKE untuk case-insensitive search)
+    if ($search) {
+        $query->where('title', 'ILIKE', '%' . $search . '%');
     }
 
-    $kp = $query->get(); // Ambil data berdasarkan query
-    $years = Documents::where('category', 'kp') // Ambil daftar tahun unik
+    // Ambil data dokumen sesuai query
+    $kp = $query->get();
+
+    // Ambil daftar tahun unik
+    $years = Documents::where('category', 'kp')
         ->select('year')
         ->distinct()
         ->orderBy('year', 'desc')
-        ->pluck('year'); // Hanya kolom tahun
+        ->pluck('year');
 
-    return view('pages.category.kp', compact('kp', 'years', 'year'));
+    // Kirim data ke view
+    return view('pages.category.kp', compact('kp', 'years', 'year', 'search'));
 }
+
 
 
 
 public function proposal(Request $request)
 {
-    // ambil data proposal
+    // Ambil data proposal berdasarkan kategori
     $query = Documents::where('category', 'proposal');
-
-    // search
-    $search =$request->input('search');
-
-    // tahun
-    $year =$request->input('year');
-
-    if($year){
+    
+    // Ambil parameter pencarian dan tahun
+    $search = $request->input('search');
+    $year = $request->input('year');
+    
+    // Cek jika ada tahun yang dipilih, maka filter berdasarkan tahun
+    if ($year) {
         $query->where('year', $year);
     }
-       
-    // filter
-    if($search){
-        $query->where('title', 'like', '%'.$search .'%');
+
+    // Cek jika ada pencarian, maka filter berdasarkan judul
+    if ($search) {
+        $query->where('title', 'ILIKE', '%' . $search . '%');
     }
 
+    // Ambil data proposal yang sudah difilter
     $proposal = $query->get();
-    $years = Documents::where('category', 'proposal') // Ambil daftar tahun unik
-    ->select('year')
-    ->distinct()
-    ->orderBy('year', 'desc')
-    ->pluck('year'); //
-    return view('pages.category.proposal', compact('proposal', 'years', 'year'));
+
+    // Ambil daftar tahun unik untuk filter
+    $years = Documents::where('category', 'proposal')
+        ->select('year')
+        ->distinct()
+        ->orderBy('year', 'desc')
+        ->pluck('year');
+
+    // Kembalikan ke view dengan data yang sudah diproses
+    return view('pages.category.proposal', compact('proposal', 'years', 'year', 'search'));
 }
+
+
 
         public function skripsi(Request $request)
         {
@@ -235,10 +232,9 @@ public function proposal(Request $request)
         }
             
         // filter
-        if($search){
-            $query->where('title', 'like', '%'.$search .'%');
+        if ($search) {
+            $query->where('title', 'ILIKE', '%' . $search . '%');
         }
-
         $skripsi = $query->get();
         $years = Documents::where('category', 'skripsi') // Ambil daftar tahun unik
         ->select('year')

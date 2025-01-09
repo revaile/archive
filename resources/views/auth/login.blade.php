@@ -61,9 +61,9 @@
         </form>
 
         <!-- Register Link -->
-        <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+        {{-- <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
             Don’t have an account?
             <a href="{{ route('register') }}" class="text-blue-500 font-semibold hover:underline">Create One</a>
-        </p>
+        </p> --}}
     </div>
 </x-guest-layout>

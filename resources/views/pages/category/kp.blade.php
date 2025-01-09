@@ -32,73 +32,95 @@
 <body class="bg-gray-100 font-sans">
     <!-- Navbar Start -->
     <!-- Navbar Start -->
-    <header class="bg-white shadow">
-        <div class="container px-6 sm:px-10 lg:px-20 py-4 flex justify-between items-center sm:ml-10">
-            <a href="#" class="flex items-center mb-4 sm:mr-16">
-                <!-- Added mb-4 for margin-bottom on small screens -->
+    <header class="relative shadow">
+        <div class="container mx-auto px-20 py-6 sm:py-10 flex items-center justify-between w-full">
+            <!-- Logo -->
+            <a href="#" class="flex flex-row items-center">
                 <img src="{{ asset('images/tech.png') }}" alt="Prestasi Icon" class="w-10 h-10 sm:w-12 sm:h-12 mr-2">
-                <h1 class="hidden sm:block text-lg sm:text-xl font-bold text-gray-800">Archive Documents</h1>
+                <h1 class="col-span-1 sm:col-span-2 text-lg sm:text-2xl font-bold text-gray-800">Archive Documents</h1>
             </a>
 
-            <!-- Navigation Menu -->
-            <nav id="menu"
-                class="hidden md:flex md:space-x-6 absolute md:static bg-white w-full md:w-auto left-0 top-16 md:top-auto md:left-auto shadow md:shadow-none z-10 mt-4 sm:mt-0">
-                <!-- Added mt-4 for margin-top on small screens -->
-                <a href="{{ route('index') }}"
-                    class="block md:inline-block text-black px-4 py-2 md:p-0 transform hover:scale-105 transition-transform duration-300 text-xs sm:text-sm">Home</a>
-                <a href="{{ route('kp') }}"
-                    class="block md:inline-block text-black px-4 py-2 md:p-0 transform hover:scale-105 transition-transform duration-300 text-xs sm:text-sm">Kerja
-                    Praktek</a>
-                <a href="{{ route('proposal') }}"
-                    class="block md:inline-block text-black px-4 py-2 md:p-0 transform hover:scale-105 transition-transform duration-300 text-xs sm:text-sm">Proposal</a>
-                <a href="{{ route('skripsi') }}"
-                    class="block md:inline-block text-black px-4 py-2 md:p-0 transform hover:scale-105 transition-transform duration-300 text-xs sm:text-sm">Tugas
-                    Akhir</a>
-                <a href="#ta"
-                    class="block md:inline-block text-black px-4 py-2 md:p-0 transform hover:scale-105 transition-transform duration-300 text-xs sm:text-sm">About
-                    Us</a>
-            </nav>
+            <!-- Navigation -->
+            <div class="hidden md:flex items-center justify-center gap-4 mx-auto">
+                <nav class="space-x-8 text-gray-600">
+                    <a href="{{ route('index') }}"
+                        class="text-black transform hover:scale-105 transition-transform duration-300 
+                              {{ request()->routeIs('index') ? 'text-yellow-400' : '' }}">Home</a>
 
-            <!-- Search and Login -->
-            <div class="hidden md:flex items-center space-x-4 ml-4">
-                <form method="GET" action="{{ route('kp') }}" class="relative">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search"
-                        class="pl-10 pr-4 py-2 bg-gray-200 text-sm rounded-full focus:outline-none">
-                    <span class="absolute top-1/2 left-3 transform -translate-y-1/2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 16l2-2m4-4l2-2M3 21v-4a4 4 0 014-4h3" />
-                        </svg>
-                    </span>
-                    <input type="hidden" name="year" value="{{ request('year') }}">
-                </form>
-                <!-- Login Button -->
-                <div class="hidden md:flex">
-                    @if (Auth::check())
-                        @if (Auth::user()->roles == 'admin')
-                            <a href="{{ url('/dashboard') }}"
-                                class="bg-yellow-400 text-white px-6 py-2 sm:px-4 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">Dashboard</a>
-                        @else
-                            <a href="{{ route('user.mydocuments.index') }}"
-                                class="bg-yellow-400 text-white px-6 py-2 sm:px-4 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">My
-                                Documents</a>
-                        @endif
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="bg-yellow-400 text-white px-6 py-2 sm:px-4 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">Sign
-                            In</a>
-                    @endif
-                </div>
+                    <a href="{{ route('kp') }}"
+                        class="text-black transform hover:scale-105 transition-transform duration-300 
+                              {{ request()->routeIs('kp') ? 'text-yellow-400' : '' }}">Kerja
+                        Praktek</a>
+
+                    <a href="{{ route('proposal') }}"
+                        class="text-black transform hover:scale-105 transition-transform duration-300 
+                              {{ request()->routeIs('proposal') ? 'text-yellow-400' : '' }}">Proposal</a>
+
+                    <a href="{{ route('skripsi') }}"
+                        class="text-black transform hover:scale-105 transition-transform duration-300 
+                              {{ request()->routeIs('skripsi') ? 'text-yellow-400' : '' }}">Tugas
+                        Akhir</a>
+
+                    <a href="#ta"
+                        class="text-black transform hover:scale-105 transition-transform duration-300 
+                              {{ request()->routeIs('ta') ? 'text-yellow-400' : '' }}">About
+                        Us</a>
+                </nav>
+
             </div>
+
+            <!-- Search Bar & Login Button -->
+            <div class="hidden md:flex items-center gap-4">
+                <!-- Search Bar -->
+                <form action="{{ route('kp') }}" method="GET" class="relative">
+                    <input type="text" name="search" value="{{ old('search', $search) }}"
+                        class="px-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                        placeholder="Search..." />
+                    <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 17a6 6 0 100-12 6 6 0 000 12zm0 0l3.5 3.5" />
+                        </svg>
+                    </button>
+                </form>
+
+                <!-- Login/Sign In or Dashboard Button -->
+                @if (Auth::check())
+                    @if (Auth::user()->roles == 'admin')
+                        <a href="{{ url('/dashboard') }}"
+                            class="bg-yellow-400 text-white px-6 py-2 sm:px-8 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">Dashboard</a>
+                    @else
+                        <a href="{{ route('user.mydocuments.index') }}"
+                            class="bg-yellow-400 text-white px-6 py-2 sm:px-8 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">My
+                            Documents</a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}"
+                        class="bg-yellow-400 text-white px-4 py-2 sm:px-12 sm:py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300">Sign
+                        In</a>
+                @endif
+            </div>
+
+        </div>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu"
+            class="md:hidden hidden flex flex-col items-center bg-transparent p-5 absolute top-[80px] left-0 right-0 w-full h-fit">
+            <a href="{{ route('index') }}" class="text-white py-1">Home</a>
+            <a href="{{ route('kp') }}" class="text-white py-1">Kerja Praktek</a>
+            <a href="{{ route('proposal') }}" class="text-white py-1">Proposal</a>
+            <a href="{{ route('skripsi') }}" class="text-white py-1">Tugas Akhir</a>
+            <a href="#ta" class="text-white py-2">About Us</a>
         </div>
     </header>
+
     <!-- Navbar End -->
 
     <!-- Main Section -->
     <section class="py-12">
         <div class="container mx-auto px-6 sm:px-10 lg:px-20 text-center">
-            <h1 class="text-2xl sm:text-4xl font-bold text-gray-800" >Kerja Praktek</h1>
+            <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Kerja Praktek</h1>
 
             <!-- Filter Section Start -->
             <div class="mt-6">
@@ -140,7 +162,7 @@
     <!-- Hero Section End -->
 
     <!-- Content Section Start -->
-    <section class="container mx-auto py-10 max-w-7xl" data-aos="fade-up">
+    <section class="container mx-auto max-w-7xl mb-20" data-aos="fade-up">
         <div class="grid grid-cols-1 sm:grid-cols lg:grid-cols-3 gap-6 sm:px-10">
             @forelse ($kp as $document)
                 <!-- Book Card -->
@@ -150,7 +172,8 @@
                         alt="Book Cover" class="w-full h-85 object-cover" />
                     <div class="p-4">
                         <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}</h2>
-                        <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}</p>
+                        <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}
+                        </p>
                         <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                         <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
                     </div>
@@ -165,7 +188,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-
         AOS.init({
             duration: 1200, // Durasi animasi dalam milidetik
             easing: 'ease-in-out', // Efek easing animasi

@@ -27,7 +27,7 @@
             <!-- Search Box untuk KP -->
             <!-- Search Box untuk KP -->
             <div class="flex justify-between mb-7">
-                <form method="GET" action="{{ route('index') }}"
+                <form method="GET" action="{{ route('dashboard.documents.index.search') }}"
                     class="relative flex flex-wrap gap-2 w-full items-center">
                     <input type="text" name="search" placeholder="Search Documents" value="{{ request('search') }}"
                         class="flex-1 min-w-[150px] lg:w-auto px-3 py-2 pr-10 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" />

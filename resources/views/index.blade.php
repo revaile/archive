@@ -37,23 +37,33 @@
                         <div class="hidden md:flex items-center gap-7">
                             <!-- Navigation -->
                             <nav class="hidden md:flex space-x-8 text-gray-300">
+                                <a href="{{ route('index') }}"
+                                    class="text-white transform hover:scale-105 transition-transform duration-300
+                                    {{ request()->routeIs('index') ? 'text-white font-bold' : '' }}">
+                                    Home
+                                </a>
                                 <a href="{{ route('kp') }}"
-                                    class="text-white transform hover:scale-105 transition-transform duration-300">
+                                    class="text-white transform hover:scale-105 transition-transform duration-300
+                                    {{ request()->routeIs('kp') ? 'text-yellow-500 font-bold' : '' }}">
                                     Kerja Praktek
                                 </a>
                                 <a href="{{ route('proposal') }}"
-                                    class="text-white transform hover:scale-105 transition-transform duration-300">
+                                    class="text-white transform hover:scale-105 transition-transform duration-300
+                                    {{ request()->routeIs('proposal') ? 'text-yellow-500 font-bold' : '' }}">
                                     Proposal
                                 </a>
                                 <a href="{{ route('skripsi') }}"
-                                    class="text-white transform hover:scale-105 transition-transform duration-300">
+                                    class="text-white transform hover:scale-105 transition-transform duration-300
+                                    {{ request()->routeIs('skripsi') ? 'text-yellow-500 font-bold' : '' }}">
                                     Tugas Akhir
                                 </a>
                                 <a href="#ta"
-                                    class="text-white transform hover:scale-105 transition-transform duration-300">
+                                    class="text-white transform hover:scale-105 transition-transform duration-300
+                                    {{ request()->is('ta') ? 'text-yellow-500 font-bold' : '' }}">
                                     About Us
                                 </a>
                             </nav>
+                            
 
                             <!-- Login Button -->
                             <!-- Login Button -->
@@ -74,10 +84,10 @@
                                     class="bg-white text-indigo-950 px-8 py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300 sm:text-sm lg:text-base">
                                     Sign In
                                 </a>
-                                <a href="{{ route('register') }}"
+                                {{-- <a href="{{ route('register') }}"
                                     class="bg-indigo-950 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-500 focus:outline-none focus:ring-2 hover:scale-105 transition-transform duration-300 sm:text-sm lg:text-base">
                                     Register
-                                </a>
+                                </a> --}}
                             @endif
 
                         </div>

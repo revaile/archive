@@ -12,10 +12,10 @@
 
 <body class="bg-[#F5F6F8] min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="relative">
-        <div class="container mx-auto px-10 py-6 sm:py-10 flex items-center justify-between w-full">
+    <header class="relative shadow">
+        <div class="container mx-auto px-20 py-6 sm:py-10 flex items-center justify-between w-full">
             <!-- Logo -->
-            
+
 
             <!-- Hamburger Button -->
             <div class="md:hidden flex items-center">
@@ -33,7 +33,7 @@
                 <img src="{{ asset('images/tech.png') }}" alt="Prestasi Icon" class="w-10 h-10 sm:w-12 sm:h-12 mr-2">
                 <h1 class="col-span-1 sm:col-span-2 text-lg sm:text-2xl font-bold text-gray-800">Archive Documents</h1>
             </a>
-            
+
             <div class="hidden md:flex items-center justify-center gap-4 mx-auto">
                 <nav class="space-x-8 text-gray-600">
                     <a href="{{ route('index') }}"
@@ -67,8 +67,7 @@
                 @endif
             </div>
         </div>
-        <img src="{{ asset('images/Header.png') }}" alt="Header Image"
-            class="w-full h-[80vh] object-cover relative sm:-top-4">
+     
 
         <!-- Mobile Menu (hidden by default) -->
         <div id="mobile-menu"
@@ -102,10 +101,11 @@
         });
     </script>
 
-    <main class="flex-1">
-        <div class="relative flex flex-row gap-8 w-full max-w-7xl mx-auto transform -translate-y-1/4 mt-16">
+    <main class="flex-1 min-h-screen flex flex-col mb-10">
+        <div class="relative flex flex-row gap-8 w-full max-w-7xl mx-auto mt-12">
             <!-- Section Detail -->
-            <section class="bg-white p-8 max-w-4xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl" >
+            
+            <section class="bg-white p-8 max-w-4xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl">
                 <div class="flex flex-col md:flex-row items-start">
                     <div class="md:w-1/3 flex justify-center flex-col items-center">
                         <!-- Link untuk download gambar -->
@@ -117,7 +117,7 @@
                                 class="rounded-lg shadow-lg w-full h-auto transform transition duration-300 ease-in-out hover:scale-110">
                         </a>
 
-                        <div class="mt-4 w-full flex flex-col items-center"  >
+                        <div class="mt-4 w-full flex flex-col items-center">
                             <!-- Judul BAB 1 -->
                             <h2 class="text-xl font-bold mb-4">BAB 1</h2>
 
@@ -130,7 +130,7 @@
                         </div>
                         <!-- BAB 2-4 (Hanya untuk Pengguna yang Sudah Login) -->
                         @auth
-                            <div class="mt-4 w-full flex flex-col items-center" >
+                            <div class="mt-4 w-full flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4">BAB 2</h2>
                                 <a href="{{ asset('storage/' . $document->bab2) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
@@ -139,7 +139,7 @@
                                 </a>
                             </div>
 
-                            <div class="mt-4 w-full flex flex-col items-center"  >
+                            <div class="mt-4 w-full flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4">BAB 3</h2>
                                 <a href="{{ asset('storage/' . $document->bab3) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
@@ -148,7 +148,7 @@
                                 </a>
                             </div>
 
-                            <div class="mt-4 w-full flex flex-col items-center"  >
+                            <div class="mt-4 w-full flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4">BAB 4</h2>
                                 <a href="{{ asset('storage/' . $document->bab4) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
@@ -195,8 +195,8 @@
             </section>
 
             <!-- Related Books -->
-            <section class="p-4 sm:p-8 max-w-md flex-1"  >
-                <h1 class=" text-white font-bold text-sm mb-4 sm:text-xl">Related Documents</h1>
+            <section class="p-4 sm:p-8 max-w-md flex-1">
+                <h1 class=" text-yellow-400 font-bold text-sm mb-4 sm:text-xl">Related Documents</h1>
                 <div class="grid gap-6">
                     @foreach ($relatedDocuments as $related)
                         <a href="{{ route('detail', $related->id) }}" class="block">

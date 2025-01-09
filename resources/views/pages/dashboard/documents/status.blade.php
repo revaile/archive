@@ -231,8 +231,8 @@
                     <!-- Status Update Section -->
                     <div class="bg-white shadow-md rounded-lg p-6 mt-8">
                         <p class="text-gray-700 text-lg font-semibold mb-4">Ubah Status:</p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            @foreach (['pending' => 'yellow', 'approved' => 'green', 'rejected' => 'red'] as $status => $color)
+                        <div class="flex justify-between gap-4">
+                            @foreach (['approved' => 'green', 'rejected' => 'red'] as $status => $color)
                                 <form method="POST"
                                     action="{{ route('dashboard.documents.updateStatus', ['document' => $document->id, 'status' => $status]) }}">
                                     @csrf
@@ -244,7 +244,8 @@
                                 </form>
                             @endforeach
                         </div>
-                    </div>
+                    </div>                    
+                    
                 </form>
             </div>
         </div>

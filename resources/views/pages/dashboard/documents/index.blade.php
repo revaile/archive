@@ -27,7 +27,7 @@
             <!-- Search Box untuk KP -->
             <!-- Search Box untuk KP -->
             <div class="flex justify-between mb-7">
-                <form method="GET" action="{{ route('dashboard.documents.index') }}"
+                <form method="GET" action="{{ route('index') }}"
                     class="relative flex flex-wrap gap-2 w-full items-center">
                     <input type="text" name="search" placeholder="Search Documents" value="{{ request('search') }}"
                         class="flex-1 min-w-[150px] lg:w-auto px-3 py-2 pr-10 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" />
@@ -35,11 +35,11 @@
                     <select name="category"
                         class="flex-1 min-w-[120px] lg:w-auto px-3 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
                         <option value="">Pilih Kategori</option>
-                        <option value="KP" {{ request('category') == 'KP' ? 'selected' : '' }}>Kerja Praktek
+                        <option value="kp" {{ request('category') == 'kp' ? 'selected' : '' }}>Kerja Praktek
                         </option>
-                        <option value="Skripsi" {{ request('category') == 'Skripsi' ? 'selected' : '' }}>Skripsi
+                        <option value="skripsi" {{ request('category') == 'skripsi' ? 'selected' : '' }}>Skripsi
                         </option>
-                        <option value="Proposal" {{ request('category') == 'Proposal' ? 'selected' : '' }}>Proposal
+                        <option value="proposal" {{ request('category') == 'proposal' ? 'selected' : '' }}>Proposal
                         </option>
                     </select>
 
@@ -125,7 +125,8 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3">
-                                        <img src="{{ asset('storage/' . $document->cover) }}" alt="Cover Image" class="w-16 h-16 object-cover rounded-full ">
+                                        <img src="{{ asset('storage/' . $document->cover) }}" alt="Cover Image"
+                                            class="w-16 h-16 object-cover rounded-full ">
                                     </td>
                                     <td class="px-4 py-3 flex gap-2">
                                         <a href="{{ route('dashboard.documents.edit', $document->id) }}"

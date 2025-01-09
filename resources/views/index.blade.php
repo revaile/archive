@@ -197,11 +197,11 @@
                         <select name="category"
                             class="w-full lg:w-60 px-4 py-3 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
                             <option value="">Pilih Kategori</option>
-                            <option value="KP" {{ request('category') == 'KP' ? 'selected' : '' }}>Kerja Praktek
+                            <option value="kp" {{ request('category') == 'kp' ? 'selected' : '' }}>Kerja Praktek
                             </option>
-                            <option value="Skripsi" {{ request('category') == 'Skripsi' ? 'selected' : '' }}>Skripsi
+                            <option value="skripsi" {{ request('category') == 'skripsi' ? 'selected' : '' }}>Skripsi
                             </option>
-                            <option value="Proposal" {{ request('category') == 'Proposal' ? 'selected' : '' }}>Proposal
+                            <option value="proposal" {{ request('category') == 'proposal' ? 'selected' : '' }}>Proposal
                             </option>
                         </select>
 

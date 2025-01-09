@@ -25,9 +25,9 @@ class DocumentsController extends Controller
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $documentsQuery->where(function ($query) use ($search) {
-                $query->where('title', 'like', "%$search%")
-                      ->orWhere('nim', 'like', "%$search%")
-                      ->orWhere('description', 'like', "%$search%");
+                $query->where('title', 'ILIKE', "%$search%")
+                    ->orWhere('nim', 'ILIKE', "%$search%")
+                    ->orWhere('description', 'ILIKE', "%$search%");
             });
         }
     
@@ -90,11 +90,12 @@ class DocumentsController extends Controller
     if ($request->has('search') && $request->search != '') {
         $search = $request->search;
         $documentsQuery->where(function ($query) use ($search) {
-            $query->where('title', 'like', "%$search%")
-                ->orWhere('nim', 'like', "%$search%")
-                ->orWhere('description', 'like', "%$search%");
+            $query->where('title', 'ILIKE', "%$search%")
+                ->orWhere('nim', 'ILIKE', "%$search%")
+                ->orWhere('description', 'ILIKE', "%$search%");
         });
     }
+    
 
     // Filter dokumen berdasarkan kategori
     if ($request->has('category') && $request->category != '') {

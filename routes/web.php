@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/documents', [DocumentsController::class, 'index'])->name('dashboard.documents.index');
     Route::get('/users', [UserController::class, 'index'])->name('dashboard.users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('dashboard.users.create');
+    Route::get('documents/seacrh', [DocumentsController::class, 'index'])->name('index');
+
     // Route untuk menyimpan user baru
     Route::post('/users', [UserController::class, 'store'])->name('dashboard.users.store');
     Route::get('/dashboard/users/{user}/edit', [UserController::class, 'edit'])->name('dashboard.users.edit');

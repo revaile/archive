@@ -61,10 +61,10 @@
                               {{ request()->routeIs('skripsi') ? 'text-yellow-400' : '' }}">Tugas
                         Akhir</a>
 
-                    <a href="#ta"
+                    {{-- <a href="#ta"
                         class="text-black transform hover:scale-105 transition-transform duration-300 
                               {{ request()->routeIs('ta') ? 'text-yellow-400' : '' }}">About
-                        Us</a>
+                        Us</a> --}}
                 </nav>
 
             </div>

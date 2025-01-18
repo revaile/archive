@@ -77,11 +77,13 @@
                                     </td>                                                                      <td class="px-4 py-3">{{ ucfirst($document->category) }}</td>
                                     <td class="px-4 py-3">{{ $document->year ?? 'N/A' }}</td> <!-- Kolom Years -->
                                     <td class="px-4 py-3">
-                                        <span
-                                            class="{{ $document->status == 'approved' ? 'bg-green-400' : 'bg-yellow-400' }} text-white px-3 py-1 rounded">
+                                        <span class="{{ 
+                                            $document->status == 'approved' ? 'bg-green-400' :
+                                            ($document->status == 'pending' ? 'bg-yellow-400' : 'bg-red-400') 
+                                        }} text-white px-3 py-1 rounded">
                                             {{ ucfirst($document->status) }}
                                         </span>
-                                    </td>
+                                    </td>                                    
                                     <td class="px-4 py-3">
                                         @if ($document->cover)
                                             <img src="{{ asset('storage/' . $document->cover) }}" alt="Cover Image"
@@ -92,16 +94,22 @@
                                     </td>
 
                                     <td class="px-4 py-3 flex gap-2">
-                                        <a href="{{ route('user.mydocuments.edit', $document->id) }}"
-                                            class="bg-blue-500 text-white px-3 py-1 rounded">Edit</a>
-                                        <form action="{{ route('user.mydocuments.destroy', $document->id) }}"
-                                            method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded"
-                                                onclick="return confirm('Are you sure?')">Hapus</button>
-                                        </form>
+                                        @if ($document->status !== 'approved')
+                                            <a href="{{ route('user.mydocuments.edit', $document->id) }}"
+                                                class="bg-blue-500 text-white px-3 py-1 rounded">Edit</a>
+                                            <form action="{{ route('user.mydocuments.destroy', $document->id) }}"
+                                                method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded"
+                                                    onclick="return confirm('Are you sure?')">Hapus</button>
+                                            </form>
+                                        @else
+                                            <span class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">Edit</span>
+                                            <span class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">Hapus</span>
+                                        @endif
                                     </td>
+                                    
                                 </tr>
                             @endforeach
                         </tbody>

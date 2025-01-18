@@ -44,7 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     Route::get('/dashboard', [DocumentsController::class, 'dashboard'])->name('dashboard');
 
 
@@ -70,8 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/dashboard/documnents/{document}', [DocumentsController::class, 'destroy'])->name('dashboard.documents.destroy');
 
 
-    // users
-
+    
     // Menampilkan daftar dokumen
     Route::get('/mydocuments', [DocumentUserController::class, 'index'])->name('user.mydocuments.index');
     

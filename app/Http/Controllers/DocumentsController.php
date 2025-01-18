@@ -22,14 +22,18 @@ class DocumentsController extends Controller
         $documentsQuery = Documents::query();
     
         // Filter dokumen berdasarkan pencarian umum
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $documentsQuery->where(function ($query) use ($search) {
-                $query->where('title', 'ILIKE', "%$search%")
-                    ->orWhere('nim', 'ILIKE', "%$search%")
-                    ->orWhere('description', 'ILIKE', "%$search%");
-            });
-        }
+          // Filter dokumen berdasarkan pencarian umum
+    if ($request->has('search') && $request->search != '') {
+        $search = $request->search;
+        $documentsQuery->where(function ($query) use ($search) {
+            $query->where('title', 'ILIKE', "%$search%")
+                ->orWhere('description', 'ILIKE', "%$search%")
+                ->orWhereHas('user', function ($query) use ($search) {
+                    $query->where('email', 'ILIKE', "%$search%");
+                });
+        });
+    }
+
     
         // Filter dokumen berdasarkan kategori
         if ($request->has('category') && $request->category != '') {
@@ -64,78 +68,79 @@ class DocumentsController extends Controller
    
 
     public function page(Request $request)
-{
-    // Ambil semua tahun unik dari tabel 'documents'
-    $years = Documents::distinct()->pluck('year');
-
-    // Query data dokumen
-    $documentsQuery = Documents::query();
-
-    // Filter dokumen berdasarkan pencarian umum
-    if ($request->has('search') && $request->search != '') {
-        $search = $request->search;
-        $documentsQuery->where(function ($query) use ($search) {
-            $query->where('title', 'ILIKE', "%$search%")
-                ->orWhere('nim', 'ILIKE', "%$search%")
-                ->orWhere('description', 'ILIKE', "%$search%");
+    {
+        // Ambil tahun unik
+        $years = Documents::distinct()->pluck('year');
+    
+        // Query data dokumen
+        $documentsQuery = Documents::query()
+            ->select('id', 'nim', 'year', 'title', 'description', 'cover', 'category', 'user_id')
+            ->with('user:id,email')
+            ->where('status', 'approved'); // Filter status approved di awal
+    
+        // Filter pencarian umum
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $documentsQuery->where(function ($query) use ($search) {
+                $query->where('title', 'ILIKE', "%$search%")
+                    ->orWhere('description', 'ILIKE', "%$search%")
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('email', 'ILIKE', "%$search%");
+                    });
+            });
+        }   
+    
+        // Filter kategori
+        if ($request->filled('category')) {
+            $documentsQuery->where('category', $request->category);
+        }
+    
+        // Filter tahun
+        if ($request->filled('year')) {
+            $documentsQuery->where('year', (int) $request->year);
+        }
+    
+        // Eksekusi query
+        $documents = $documentsQuery->get();
+    
+        // Hitung kategori
+        $categories = Documents::select('category')
+            ->selectRaw('count(*) as count')
+            ->where('status', 'approved')
+            ->groupBy('category')
+            ->get()
+            ->keyBy('category');
+    
+        // Pisahkan berdasarkan kategori
+        $kp = $documents->filter(function ($doc) {
+            return strtolower($doc->category) === 'kp';
         });
+    
+        $proposals = $documents->filter(function ($doc) {
+            return strtolower($doc->category) === 'proposal';
+        });
+    
+        $skripsi = $documents->filter(function ($doc) {
+            return strtolower($doc->category) === 'skripsi';
+        });
+    
+        // Kirim data ke view
+        return view('index', compact('categories', 'kp', 'proposals', 'skripsi', 'documents', 'years'));
     }
     
-
-    // Filter dokumen berdasarkan kategori
-    if ($request->has('category') && $request->category != '') {
-        $documentsQuery->where('category', $request->category);
-    }
-
-    // Filter dokumen berdasarkan tahun
-    if ($request->has('year') && $request->year != '') {
-        $documentsQuery->where('year', $request->year);
-    }
-
-    // Ambil hasil pencarian dokumen dan load relasi user
-    $documents = $documentsQuery
-        ->select('id', 'nim', 'year', 'title', 'description', 'cover', 'category', 'user_id')
-        ->with('user:id,email') // Pastikan relasi user di-load
-        ->get();
-
-    // Menghitung jumlah dokumen berdasarkan kategori
-    $categories = Documents::select('category')
-        ->selectRaw('count(*) as count')
-        ->groupBy('category')
-        ->get()
-        ->keyBy('category');
-
-    $categories = $categories->map(function ($item) {
-        $item->title = ucfirst($item->category);
-        return $item;
-    });
-
-    // Pisahkan dokumen berdasarkan kategori
-    $kp = $documents->filter(function ($doc) {
-        return strtolower($doc->category) === 'kp';
-    });
-
-    $proposals = $documents->filter(function ($doc) {
-        return strtolower($doc->category) === 'proposal';
-    });
-
-    $skripsi = $documents->filter(function ($doc) {
-        return strtolower($doc->category) === 'skripsi';
-    });
-
-    // Kirim data ke view
-    return view('index', compact('categories', 'kp', 'proposals', 'skripsi', 'documents', 'years'));
-}
 
 
 
     
 public function detail($id)
 {
-    $document = Documents::findOrFail($id);
+    // Ambil dokumen berdasarkan ID
+    $document = Documents::where('status', 'approved')->findOrFail($id);
 
+    // Ambil dokumen terkait berdasarkan kategori dan status "approved"
     $relatedDocuments = Documents::where('category', $document->category)
         ->where('id', '!=', $id)
+        ->where('status', 'approved') // Hanya dokumen dengan status "approved"
         ->limit(4)
         ->get();
 
@@ -145,10 +150,12 @@ public function detail($id)
 
 
 
+
 public function kp(Request $request)
 {
     // Ambil documents kategori "kp"
-    $query = Documents::where('category', 'kp');
+    $query = Documents::where('category', 'kp')
+    ->where('status', 'approved');
 
     // Ambil parameter search dan year
     $search = $request->input('search');
@@ -184,7 +191,8 @@ public function kp(Request $request)
 public function proposal(Request $request)
 {
     // Ambil data proposal berdasarkan kategori
-    $query = Documents::where('category', 'proposal');
+    $query = Documents::where('category', 'proposal')
+    ->where('status', 'approved');
     
     // Ambil parameter pencarian dan tahun
     $search = $request->input('search');
@@ -219,7 +227,8 @@ public function proposal(Request $request)
         public function skripsi(Request $request)
         {
         // ambil data proposal
-        $query = Documents::where('category', 'skripsi');
+        $query = Documents::where('category', 'skripsi')
+        ->where('status','approved');
 
         // search
         $search =$request->input('search');
@@ -514,26 +523,22 @@ public function proposal(Request $request)
         return redirect()->route('dashboard.documents.index')->with('success', 'Document updated successfully.');
     }
 
-        public function updateStatus(Request $request, Documents $document)
-        {
-            $request->validate([
-                'status' => 'required|in:pending,approved,rejected',
-            ]);
-
-            $document->status = $request->status;
-
-            // Jika status rejected, tambahkan alasan penolakan
-            // if ($request->status == 'rejected') {
-            //     $document->rejection_reason = $request->input('rejection_reason', 'No reason provided');
-            // } else {
-            //     $document->rejection_reason = null;
-            // }
-
-            $document->save();
-
-            return redirect()->route('dashboard.documents.index', $document)->with('success', 'Status updated successfully.');
+    public function updateStatus(Request $request, Documents $document)
+    {
+        $status = $request->input('status');
+    
+        // Validasi status
+        if (!in_array($status, ['pending', 'approved', 'rejected'])) {
+            return response()->json(['error' => 'Invalid status'], 400);
+        }
+    
+        // Update status
+        $document->status = $status;
+        $document->save();
+    
+        return redirect()->route('dashboard.documents.index')->with('success', 'Status updated successfully.');
     }
-
+    
 
     /**
      * Remove the specified document from storage.

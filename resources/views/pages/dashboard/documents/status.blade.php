@@ -189,63 +189,66 @@
                         </div>
                     @endif
                     @if ($document->bab2)
-                    <div class="mb-6">
-                        <p class="text-gray-700"><strong>BAB 2:</strong></p>
-                        <div class="flex items-center gap-4 mt-2">
-                            <iframe src="{{ Storage::url($document->bab2) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                        <div class="mb-6">
+                            <p class="text-gray-700"><strong>BAB 2:</strong></p>
+                            <div class="flex items-center gap-4 mt-2">
+                                <iframe src="{{ Storage::url($document->bab2) }}"
+                                    class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                            </div>
                         </div>
-                    </div>
-                @else
-                    <div class="mb-6">
-                        <p class="text-red-500 font-bold">No Document Uploaded</p>
-                    </div>
-                @endif
-                
-                @if ($document->bab3)
-                    <div class="mb-6">
-                        <p class="text-gray-700"><strong>BAB 3:</strong></p>
-                        <div class="flex items-center gap-4 mt-2">
-                            <iframe src="{{ Storage::url($document->bab3) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">No Document Uploaded</p>
                         </div>
-                    </div>
-                @else
-                    <div class="mb-6">
-                        <p class="text-red-500 font-bold">No Document Uploaded</p>
-                    </div>
-                @endif
-                
-                @if ($document->bab4)
-                    <div class="mb-6">
-                        <p class="text-gray-700"><strong>BAB 4:</strong></p>
-                        <div class="flex items-center gap-4 mt-2">
-                            <iframe src="{{ Storage::url($document->bab4) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                    @endif
+
+                    @if ($document->bab3)
+                        <div class="mb-6">
+                            <p class="text-gray-700"><strong>BAB 3:</strong></p>
+                            <div class="flex items-center gap-4 mt-2">
+                                <iframe src="{{ Storage::url($document->bab3) }}"
+                                    class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                            </div>
                         </div>
-                    </div>
-                @else
-                    <div class="mb-6">
-                        <p class="text-red-500 font-bold">No Document Uploaded</p>
-                    </div>
-                @endif
-                
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">No Document Uploaded</p>
+                        </div>
+                    @endif
+
+                    @if ($document->bab4)
+                        <div class="mb-6">
+                            <p class="text-gray-700"><strong>BAB 4:</strong></p>
+                            <div class="flex items-center gap-4 mt-2">
+                                <iframe src="{{ Storage::url($document->bab4) }}"
+                                    class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">No Document Uploaded</p>
+                        </div>
+                    @endif
+
                     <!-- Submit Button -->
                     <!-- Status Update Section -->
-                    <div class="bg-white shadow-md rounded-lg p-6 mt-8">
+                     <div class="bg-white shadow-md rounded-lg p-6 mt-8">
                         <p class="text-gray-700 text-lg font-semibold mb-4">Ubah Status:</p>
-                        <div class="flex justify-between gap-4">
-                            @foreach (['approved' => 'green', 'rejected' => 'red'] as $status => $color)
-                                <form method="POST"
-                                    action="{{ route('dashboard.documents.updateStatus', ['document' => $document->id, 'status' => $status]) }}">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit"
-                                        class="w-full bg-{{ $color }}-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-{{ $color }}-600 transition duration-200">
-                                        {{ ucfirst($status) }}
-                                    </button>
-                                </form>
-                            @endforeach
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            @foreach (['pending' => 'yellow', 'approved' => 'green', 'rejected' => 'red'] as $status => $color)
+                            <form method="POST"
+                                action="{{ route('dashboard.documents.updateStatus', ['document' => $document->id, 'status' => $status]) }}">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                    class="w-full bg-{{ $color }}-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-{{ $color }}-600 transition duration-200">
+                                    {{ ucfirst($status) }}
+                                </button>
+                            </form>
+                        @endforeach                        
                         </div>
-                    </div>                    
-                    
+                    </div>
+
                 </form>
             </div>
         </div>

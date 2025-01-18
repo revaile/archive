@@ -44,8 +44,8 @@
                         class="text-black transform hover:scale-105 transition-transform duration-300">Proposal</a>
                     <a href="{{ route('skripsi') }}"
                         class="text-black transform hover:scale-105 transition-transform duration-300">Tugas Akhir</a>
-                    <a href="#ta"
-                        class="text-black transform hover:scale-105 transition-transform duration-300">About Us</a>
+                    {{-- <a href="#ta"
+                        class="text-black transform hover:scale-105 transition-transform duration-300">About Us</a> --}}
                 </nav>
 
             </div>

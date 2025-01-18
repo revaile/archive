@@ -36,7 +36,7 @@
                         <!-- Navigation and Login Button -->
                         <div class="hidden md:flex items-center gap-7">
                             <!-- Navigation -->
-                            <nav class="hidden md:flex space-x-8 text-gray-300">
+                            <nav class="hidden md:flex space-x-11 text-gray-300 mr-20">
                                 <a href="{{ route('index') }}"
                                     class="text-white transform hover:scale-105 transition-transform duration-300
                                     {{ request()->routeIs('index') ? 'text-white font-bold' : '' }}">
@@ -57,13 +57,13 @@
                                     {{ request()->routeIs('skripsi') ? 'text-yellow-500 font-bold' : '' }}">
                                     Tugas Akhir
                                 </a>
-                                <a href="#ta"
+                                {{-- <a href="#ta"
                                     class="text-white transform hover:scale-105 transition-transform duration-300
                                     {{ request()->is('ta') ? 'text-yellow-500 font-bold' : '' }}">
                                     About Us
-                                </a>
+                                </a> --}}
                             </nav>
-                            
+
 
                             <!-- Login Button -->
                             <!-- Login Button -->
@@ -151,22 +151,31 @@
                                 Showcase Your <br /> Academic Achievements
                             </h2>
                             <p class="text-sm sm:text-base md:text-lg text-gray-700 mt-4 sm:pt-6">
-                                Find and share proposals, internships, and final projects to <br>inspire and be inspired.
+                                Find and share proposals, internships, and final projects to <br>inspire and be
+                                inspired.
                             </p>
                             <button onclick="handleRedirect()"
                                 class="px-4 sm:px-6 py-2 bg-[#facc15] text-white font-semibold rounded-full hover:bg-gray-700 transform hover:scale-105 transition-transform duration-300">
                                 Upload Dokumen
                             </button>
+
                             <script>
                                 function handleRedirect() {
                                     const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
+                                    const userRole = "{{ auth()->user()->roles ?? '' }}"; // Menyimpan role pengguna (misalnya 'admin' atau 'user')
+
                                     if (isLoggedIn) {
-                                        window.location.href = "{{ route('user.mydocuments.index') }}";
+                                        if (userRole === 'admin') {
+                                            window.location.href = "{{ route('dashboard.documents.index') }}";
+                                        } else {
+                                            window.location.href = "{{ route('user.mydocuments.index') }}";
+                                        }
                                     } else {
                                         window.location.href = "{{ route('login') }}";
                                     }
                                 }
                             </script>
+
                         </div>
                     </div>
                 </section>
@@ -238,7 +247,8 @@
                 </div>
 
 
-                <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Kerja Praktek</h1>
+                <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Kerja Praktek
+                </h1>
 
                 <!-- Book Container -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 " data-aos="fade-up">
@@ -247,11 +257,12 @@
                         <a href="{{ route('detail', $document->id) }}"
                             class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
                             <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
-                                alt="Book Cover" class="w-full h-85 object-cover"/>
+                                alt="Book Cover" class="w-full h-85 object-cover" />
                             <div class="p-4">
                                 <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
                                 </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}</p>
+                                <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                    {{ $document->user->email ?? 'No Email' }}</p>
                                 <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                                 <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
                             </div>
@@ -277,7 +288,8 @@
                             <div class="p-4">
                                 <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
                                 </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}</p>
+                                <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                    {{ $document->user->email ?? 'No Email' }}</p>
                                 <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                                 <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
                             </div>
@@ -301,7 +313,8 @@
                             <div class="p-4">
                                 <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
                                 </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}</p>
+                                <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                    {{ $document->user->email ?? 'No Email' }}</p>
                                 <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                                 <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
                             </div>

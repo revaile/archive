@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Documents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class DocumentUserController extends Controller
 {
@@ -56,6 +58,11 @@ class DocumentUserController extends Controller
         'bab2' => 'nullable|file|mimes:pdf|max:51200', // Bab 2 opsional
         'bab3' => 'nullable|file|mimes:pdf|max:51200', // Bab 3 opsional
         'bab4' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 opsional
+        'bab5' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 opsional
+        'persyaratan' => 'required|array', // Validasi array untuk persyaratan
+        'persyaratan.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
+        'persyaratan_2' => 'nullable|array', // Validasi array untuk persyaratan_2
+        'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid untuk persyaratan_2
     ]);
 
     // Simpan file utama di folder 'documents' di disk 'public'
@@ -81,6 +88,24 @@ class DocumentUserController extends Controller
         ? $request->file('bab4')->store('bab4', 'public')
         : null;
 
+        $bab5Path = $request->hasFile('bab5')
+        ? $request->file('bab5')->store('bab5', 'public')
+        : null;
+    
+             // Simpan dokumen persyaratan (array)
+    $persyaratanPaths = [];
+    foreach ($request->file('persyaratan') as $persyaratanFile) {
+        $persyaratanPaths[] = $persyaratanFile->store('persyaratan', 'public');
+    }   
+    
+    $persyaratan2Paths = [];
+    if ($request->has('persyaratan_2')) {
+        foreach ($request->file('persyaratan_2') as $persyaratanFile2) {
+            $persyaratan2Paths[] = $persyaratanFile2->store('persyaratan_2', 'public');
+        }
+    }
+
+
     // Simpan data ke database
     Documents::create([
         'title' => $request->title,
@@ -97,6 +122,9 @@ class DocumentUserController extends Controller
         'year' => $request->year ?? now()->year, // Default ke tahun sekarang jika tidak diisi
         'nim' => $request->nim,
         'user_id' => Auth::id(),
+        'bab5' => $bab5Path, // Simpan path Bab 4 jika ada
+        'persyaratan' => json_encode($persyaratanPaths), // Simpan array file persyaratan sebagai JSON
+        'persyaratan_2' => json_encode($persyaratan2Paths), // Simpan array file persyaratan_2 sebagai JS
     ]);
 
     return redirect()->route('user.mydocuments.index')->with('success', 'Document created successfully.');
@@ -112,6 +140,9 @@ class DocumentUserController extends Controller
         if ($document->user_id !== Auth::id()) {
             abort(403, 'Unauthorized access.');
         }
+        $persyaratanPaths = json_decode($document->persyaratan, true);
+        $persyaratan2Paths = json_decode($document->persyaratan_2, true); // Decode persyaratan_2
+
 
         return view('pages.user.documents.show', compact('document'));
     }
@@ -141,6 +172,8 @@ class DocumentUserController extends Controller
             abort(403, 'Unauthorized access.');
         }
 
+        $persyaratanPaths = json_decode($document->persyaratan, true);
+        $persyaratan2Paths = json_decode($document->persyaratan_2, true); 
         return view('pages.user.mydocuments.edit', compact('document'));
     }
 
@@ -163,6 +196,11 @@ class DocumentUserController extends Controller
             'bab2' => 'nullable|file|mimes:pdf|max:51200', // Bab 2 opsional
             'bab3' => 'nullable|file|mimes:pdf|max:51200', // Bab 3 opsional
             'bab4' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 opsional
+            'bab5' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 
+            'persyaratan' => 'nullable|array', // Validasi array untuk persyaratan
+            'persyaratan.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
+            'persyaratan_2' => 'nullable|array', // Validasi array untuk persyaratan
+            'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
         ]);
     
         // Perbarui file utama jika ada
@@ -194,6 +232,40 @@ class DocumentUserController extends Controller
         if ($request->hasFile('bab4')) {
             $bab4Path = $request->file('bab4')->store('bab4', 'public');
         }
+
+        $bab5Path = $document->bab5;
+        if ($request->hasFile('bab5')) {
+            $bab5Path = $request->file('bab5')->store('bab5', 'public');
+        }
+
+        // Update persyaratan
+        $persyaratanPaths = json_decode($document->persyaratan, true) ?? [];
+        if ($request->hasFile('persyaratan')) {
+            foreach ($request->file('persyaratan') as $index => $persyaratanFile) {
+                // Hapus file lama jika ada
+                if (isset($persyaratanPaths[$index])) {
+                    Storage::disk('public')->delete($persyaratanPaths[$index]);
+                }
+                // Simpan file baru di posisi indeks yang sama
+                $persyaratanPaths[$index] = $persyaratanFile->store('persyaratan', 'public');
+            }
+        }
+        // Filter elemen kosong
+        $persyaratanPaths = array_filter($persyaratanPaths);
+         
+          // Update persyaratan_2
+        $persyaratan2Paths = json_decode($document->persyaratan_2, true) ?? [];
+        if ($request->hasFile('persyaratan_2')) {
+            foreach ($request->file('persyaratan_2') as $index => $persyaratan2File) {
+                if (isset($persyaratan2Paths[$index])) {
+                    Storage::disk('public')->delete($persyaratan2Paths[$index]);
+                }
+                $persyaratan2Paths[$index] = $persyaratan2File->store('persyaratan_2', 'public');
+            }
+        }
+        $persyaratan2Paths = array_filter($persyaratan2Paths); // Filter elemen kosong
+        
+
     
         // Update dokumen di database
         $document->update([
@@ -205,7 +277,10 @@ class DocumentUserController extends Controller
             'bab2' => $bab2Path,
             'bab3' => $bab3Path,
             'bab4' => $bab4Path,
-            'review_date' => now(), // Tambahkan tanggal review
+            'bab5' => $bab5Path,
+            'persyaratan' => json_encode($persyaratanPaths),
+            'persyaratan_2' => json_encode($persyaratan2Paths),
+
         ]);
     
         return redirect()->route('user.mydocuments.index')->with('success', 'Document updated successfully.');

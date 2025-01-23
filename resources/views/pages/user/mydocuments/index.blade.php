@@ -44,116 +44,77 @@
                     </a>
                 @endif
             </div>
-
-
-            <div class="shadow overflow-hidden sm:rounded-lg">
-                <div class="px-4 py-5 bg-white sm:p-6">
-                    <table id="crudTable" class="min-w-full table-auto">
+            <div class="shadow-lg rounded-lg overflow-hidden">
+                <div class="px-4 py-4 bg-white"> <!-- Ubah px-6 menjadi px-4 -->
+                    <table id="crudTable" class="min-w-full table-auto border-collapse border border-gray-200">
                         <thead>
                             <tr class="bg-gray-100 text-gray-700">
-                                <th class="px-4 py-3 text-left">NIM</th>
-                                <th class="px-4 py-3 text-center">Judul</th>
-                                <th class="px-4 py-3 text-center">Deskripsi</th>
-                                <th class="px-4 py-3 text-left">Kategori</th>
-                                <th class="px-4 py-3 text-left">Tahun</th>
-                                <th class="px-4 py-3 text-left">Status</th>
-                                <th class="px-4 py-3 text-left">Cover</th>
-                                <th class="px-4 py-3 text-left">Aksi</th>
+                                <th class="px-4 py-3 text-left border-b border-gray-200">NIM</th> <!-- Ubah px-6 menjadi px-4 -->
+                                <th class="px-4 py-3 text-center border-b border-gray-200">Judul</th>
+                                <th class="px-4 py-3 text-center border-b border-gray-200">Deskripsi</th>
+                                <th class="px-4 py-3 text-left border-b border-gray-200">Kategori</th>
+                                <th class="px-4 py-3 text-left border-b border-gray-200">Tahun</th>
+                                <th class="px-4 py-3 text-left border-b border-gray-200">Status</th>
+                                <th class="px-4 py-3 text-left border-b border-gray-200">Cover</th>
+                                <th class="px-6 py-3 text-left border-b border-gray-200">Aksi</th> <!-- Tetap lebih lebar untuk Aksi -->
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y divide-gray-200">
                             @foreach ($documents as $document)
-                                <tr class="hover:bg-gray-100 transition duration-150">
+                                <tr class="hover:bg-gray-50 transition duration-150">
                                     <td class="px-4 py-3">{{ $document->user->email ?? 'No Email' }}</td>
-                                    <td class="px-10 py-3 text-center">
-                                        <div class="truncate w-40 overflow-hidden text-ellipsis" title="{{ $document->title }}">
+                                    <td class="px-4 py-3 text-center">
+                                        <div class="truncate w-48 overflow-hidden text-ellipsis" title="{{ $document->title }}">
                                             {{ $document->title }}
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        <div class="truncate w-40 overflow-hidden text-ellipsis" title="{{ $document->description }}">
+                                        <div class="truncate w-48 overflow-hidden text-ellipsis" title="{{ $document->description }}">
                                             {{ $document->description }}
                                         </div>
-                                    </td>                                                                      <td class="px-4 py-3">{{ ucfirst($document->category) }}</td>
-                                    <td class="px-4 py-3">{{ $document->year ?? 'N/A' }}</td> <!-- Kolom Years -->
+                                    </td>
+                                    <td class="px-4 py-3">{{ ucfirst($document->category) }}</td>
+                                    <td class="px-4 py-3">{{ $document->year ?? 'N/A' }}</td>
                                     <td class="px-4 py-3">
-                                        <span class="{{ 
-                                            $document->status == 'approved' ? 'bg-green-400' :
-                                            ($document->status == 'pending' ? 'bg-yellow-400' : 'bg-red-400') 
-                                        }} text-white px-3 py-1 rounded">
+                                        <span class="inline-block px-3 py-1 rounded text-white {{ 
+                                            $document->status == 'approved' ? 'bg-green-500' : 
+                                            ($document->status == 'pending' ? 'bg-yellow-500' : 'bg-red-500') 
+                                        }}">
                                             {{ ucfirst($document->status) }}
                                         </span>
-                                    </td>                                    
+                                    </td>
                                     <td class="px-4 py-3">
                                         @if ($document->cover)
                                             <img src="{{ asset('storage/' . $document->cover) }}" alt="Cover Image"
-                                                class="w-16 h-16 object-cover rounded-full ">
+                                                class="w-12 h-14 object-cover rounded-lg border border-gray-200">
                                         @else
                                             <span class="text-gray-500">No Cover</span>
                                         @endif
                                     </td>
-
-                                    <td class="px-4 py-3 flex gap-2">
+                                    <td class="px-6 py-3 flex gap-2"> <!-- Tetap dengan padding lebih besar -->
                                         @if ($document->status !== 'approved')
                                             <a href="{{ route('user.mydocuments.edit', $document->id) }}"
-                                                class="bg-blue-500 text-white px-3 py-1 rounded">Edit</a>
-                                            <form action="{{ route('user.mydocuments.destroy', $document->id) }}"
-                                                method="POST" class="inline">
+                                                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded shadow">Edit</a>
+                                            <form action="{{ route('user.mydocuments.destroy', $document->id) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded"
+                                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded shadow"
                                                     onclick="return confirm('Are you sure?')">Hapus</button>
                                             </form>
                                         @else
-                                            <span class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">Edit</span>
-                                            <span class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">Hapus</span>
+                                            <span class="bg-gray-400 text-white px-3 py-2 rounded shadow cursor-not-allowed">Edit</span>
+                                            <span class="bg-gray-400 text-white px-3 py-2 rounded shadow cursor-not-allowed">Hapus</span>
                                         @endif
                                     </td>
-                                    
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
+            
+                       
         </div>
     </div>
-    {{-- <footer class="bg-yellow-400 text-black py-8 px-20">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between">
-            <div class="mb-6 md:mb-0">
-                <img src="{{ asset('images/tech.png') }}" alt="Logo IF" class="inline-block w-20">
-                <p class="mt-4">
-                    Teknik Informatika<br>
-                    Universitas Islam Negeri Sunan Gunung Djati<br>
-                    Jalan A.H Nasution No. 105, Cipadung, Cibiru, Kota Bandung, Jawa Barat 40614
-                </p>
-            </div>
-            <div class="mb-6 md:mb-0">
-                <h3 class="font-bold mb-4">Layanan Akademik</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:underline">Sistem Informasi Layanan Akademik (SALAM)</a>
-                    </li>
-                    <li><a href="#" class="hover:underline">Learning Management System (LMS)</a></li>
-                    <li><a href="#" class="hover:underline">E-Library UIN Sunan Gunung Djati</a></li>
-                    <li><a href="#" class="hover:underline">E-Library Teknik Informatika</a></li>
-                    <li><a href="#" class="hover:underline">Jurnal Online Informatika</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="font-bold mb-4">Akses Cepat</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:underline">Fakultas Sains Dan Teknologi</a></li>
-                    <li><a href="#" class="hover:underline">UIN Sunan Gunung Djati</a></li>
-                    <li><a href="#" class="hover:underline">SINTA Dikti Kemdikbud RI</a></li>
-                    <li><a href="#" class="hover:underline">Pangkalan Data DIKTI Kemdikbud RI</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="border-t border-black mt-8 pt-4 text-center">
-            <p class="text-sm text-center mt-4">
-                © Copyrights. All rights reserved. Developed by <span class="font-bold">Rivaldd</span>, Supported
-                by <span class="font-bold">Tech Support Informatika</span>
-            </p>
-        </div>
-    </footer> --}}
+    
 </x-app-layout>

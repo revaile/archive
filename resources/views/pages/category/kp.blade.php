@@ -69,9 +69,11 @@
 
             </div>
 
+            
             <!-- Search Bar & Login Button -->
             <div class="hidden md:flex items-center gap-4">
                 <!-- Search Bar -->
+
                 <form action="{{ route('kp') }}" method="GET" class="relative">
                     <input type="text" name="search" value="{{ old('search', $search) }}"
                         class="px-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
@@ -84,6 +86,8 @@
                         </svg>
                     </button>
                 </form>
+
+                
 
                 <!-- Login/Sign In or Dashboard Button -->
                 @if (Auth::check())
@@ -123,21 +127,22 @@
             <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Kerja Praktek</h1>
 
             <!-- Filter Section Start -->
-            <div class="mt-6">
-                <form method="GET" action="{{ route('kp') }}">
-                    <label for="yearFilter" class="text-gray-700 font-medium text-lg">Filter by Year:</label>
-                    <select name="year" id="yearFilter" onchange="this.form.submit()"
-                        class="mt-2 px-4 py-2 border border-gray-300 rounded-lg text-gray-700">
-                        <option value="">All Years</option>
-                        @foreach ($years as $filterYear)
-                            <option value="{{ $filterYear }}"
-                                {{ request('year') == $filterYear ? 'selected' : '' }}>
-                                {{ $filterYear }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </div>
+          <!-- Filter Section Start -->
+          <div class="mt-6">
+            <form method="GET" action="{{ route('kp') }}">
+                <label for="yearFilter" class="text-gray-700 font-medium text-lg">Filter by Year:</label>
+                <select name="year" id="yearFilter" onchange="this.form.submit()"
+                    class="mt-2 px-4 py-2 border border-gray-300 roun`ded-lg text-gray-700">
+                    <option value="">All Years</option>
+                    @foreach ($years as $filterYear)
+                        <option value="{{ $filterYear }}"
+                            {{ request('year') == $filterYear ? 'selected' : '' }}>
+                            {{ $filterYear }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
             <!-- Filter Section End -->
 
             <div class="mt-6">

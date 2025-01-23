@@ -7,6 +7,7 @@ use App\Models\Documents;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentsController extends Controller
 {
@@ -374,7 +375,13 @@ public function proposal(Request $request)
             'bab2' => 'nullable|file|mimes:pdf|max:51200', // Bab 2 opsional
             'bab3' => 'nullable|file|mimes:pdf|max:51200', // Bab 3 opsional
             'bab4' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 opsional
-            
+            'bab5' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 opsional
+            'persyaratan' => 'required|array', // Validasi array untuk persyaratan
+            'persyaratan.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
+            'persyaratan_2' => 'nullable|array', // Validasi array untuk persyaratan_2
+            'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid untuk persyaratan_2
+            // 'persyaratan_3' => 'nullable|array', // Validasi array untuk persyaratan_2
+            // 'persyaratan_3.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid untuk persyaratan_2
         ]);
     
         // Simpan file di folder 'documents' di disk 'public'
@@ -405,13 +412,28 @@ public function proposal(Request $request)
             ? $request->file('bab4')->store('bab4', 'public')
             : null;
 
-    
+        $bab5Path = $request->hasFile('bab5')
+            ? $request->file('bab5')->store('bab5', 'public')
+            : null;
+        
+                 // Simpan dokumen persyaratan (array)
+        $persyaratanPaths = [];
+        foreach ($request->file('persyaratan') as $persyaratanFile) {
+            $persyaratanPaths[] = $persyaratanFile->store('persyaratan', 'public');
+        }   
+        
+        $persyaratan2Paths = [];
+        if ($request->has('persyaratan_2')) {
+            foreach ($request->file('persyaratan_2') as $persyaratanFile2) {
+                $persyaratan2Paths[] = $persyaratanFile2->store('persyaratan_2', 'public');
+            }
+        }
+
         // Tentukan user_id, jika admin dan user_id disediakan gunakan itu, jika tidak gunakan Auth::id()
         $userId = Auth::user()->is_admin && $request->user_id 
                   ? $request->user_id 
                   : Auth::id();
 
-                
     
         // Simpan data ke database
         Documents::create([
@@ -429,7 +451,11 @@ public function proposal(Request $request)
             'bab2' => $bab2Path, // Simpan path Bab 2 jika ada
             'bab3' => $bab3Path, // Simpan path Bab 3 jika ada
             'bab4' => $bab4Path, // Simpan path Bab 4 jika ada
-
+            'bab5' => $bab5Path, // Simpan path Bab 4 jika ada
+            'persyaratan' => json_encode($persyaratanPaths), // Simpan array file persyaratan sebagai JSON
+            'persyaratan_2' => json_encode($persyaratan2Paths), // Simpan array file persyaratan_2 sebagai JSON
+            // 'persyaratan_3' => json_encode($persyaratan3Paths), // Simpan array file persyaratan_2 sebagai JSON
+            
 
         ]);
     
@@ -443,15 +469,25 @@ public function proposal(Request $request)
      */
     public function show(Documents $document)
     {
-        return view('pages.dashboard.documents.status', compact('document'));
+        // Decode JSON persyaratan
+        $persyaratanPaths = json_decode($document->persyaratan, true);
+        $persyaratan2Paths = json_decode($document->persyaratan_2, true); // Decode persyaratan_2
+
+    
+        // Kirim ke view
+        return view('pages.dashboard.documents.status', compact('document', 'persyaratanPaths', 'persyaratan2Paths'));
     }
+    
 
     /**
      * Show the form for editing the specified document.
      */
     public function edit(Documents $document)
     {
+        $persyaratanPaths = json_decode($document->persyaratan, true);
+        $persyaratan2Paths = json_decode($document->persyaratan_2, true); // Decode pe
         return view('pages.dashboard.documents.edit', compact('document'));
+        
     }
 
     /**
@@ -469,6 +505,11 @@ public function proposal(Request $request)
             'bab2' => 'nullable|file|mimes:pdf|max:51200', // Bab 2 opsional
             'bab3' => 'nullable|file|mimes:pdf|max:51200', // Bab 3 opsional
             'bab4' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 
+            'bab5' => 'nullable|file|mimes:pdf|max:51200', // Bab 4 
+            'persyaratan' => 'nullable|array', // Validasi array untuk persyaratan
+            'persyaratan.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
+            'persyaratan_2' => 'nullable|array', // Validasi array untuk persyaratan
+            'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
             
         ]);
 
@@ -478,10 +519,14 @@ public function proposal(Request $request)
         }
 
         // Jika cover diunggah
-        $coverPath = $document->cover; // Gunakan cover lama jika tidak ada file baru
+        $coverPath = $document->cover;
         if ($request->hasFile('cover')) {
+            if ($coverPath) {
+                Storage::disk('public')->delete($coverPath);
+            }
             $coverPath = $request->file('cover')->store('covers', 'public');
         }
+        
 
          // Perbarui file Bab 2 jika ada
          $bab2Path = $document->bab2;
@@ -500,6 +545,38 @@ public function proposal(Request $request)
          if ($request->hasFile('bab4')) {
              $bab4Path = $request->file('bab4')->store('bab4', 'public');
          }
+
+         $bab5Path = $document->bab5;
+        if ($request->hasFile('bab5')) {
+            $bab5Path = $request->file('bab5')->store('bab5', 'public');
+        }
+
+        // Update persyaratan
+        $persyaratanPaths = json_decode($document->persyaratan, true) ?? [];
+        if ($request->hasFile('persyaratan')) {
+            foreach ($request->file('persyaratan') as $index => $persyaratanFile) {
+                // Hapus file lama jika ada
+                if (isset($persyaratanPaths[$index])) {
+                    Storage::disk('public')->delete($persyaratanPaths[$index]);
+                }
+                // Simpan file baru di posisi indeks yang sama
+                $persyaratanPaths[$index] = $persyaratanFile->store('persyaratan', 'public');
+            }
+        }
+        // Filter elemen kosong
+        $persyaratanPaths = array_filter($persyaratanPaths);
+         
+          // Update persyaratan_2
+        $persyaratan2Paths = json_decode($document->persyaratan_2, true) ?? [];
+        if ($request->hasFile('persyaratan_2')) {
+            foreach ($request->file('persyaratan_2') as $index => $persyaratan2File) {
+                if (isset($persyaratan2Paths[$index])) {
+                    Storage::disk('public')->delete($persyaratan2Paths[$index]);
+                }
+                $persyaratan2Paths[$index] = $persyaratan2File->store('persyaratan_2', 'public');
+            }
+        }
+        $persyaratan2Paths = array_filter($persyaratan2Paths); // Filter elemen kosong
         
 
         $document->update([
@@ -515,7 +592,9 @@ public function proposal(Request $request)
             'bab2' => $bab2Path,
             'bab3' => $bab3Path,
             'bab4' => $bab4Path,
-
+            'bab5' => $bab5Path,
+            'persyaratan' => json_encode($persyaratanPaths),
+            'persyaratan_2' => json_encode($persyaratan2Paths),
 
 
         ]);

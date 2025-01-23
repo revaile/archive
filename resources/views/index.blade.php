@@ -201,6 +201,7 @@
 
 
             <!-- Section Kp ( -->
+            <!-- Section Kp ( -->
             <section class="max-w-6xl mx-auto px-6 py-8">
                 <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8 text-center">All Documents</h1>
 
@@ -246,82 +247,81 @@
                     </form>
                 </div>
 
-
-                <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Kerja Praktek
-                </h1>
-
-                <!-- Book Container -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 " data-aos="fade-up">
-                    @foreach ($kp as $document)
-                        <!-- Book Card -->
-                        <a href="{{ route('detail', $document->id) }}"
-                            class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
-                            <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
-                                alt="Book Cover" class="w-full h-85 object-cover" />
-                            <div class="p-4">
-                                <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
-                                </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM:
-                                    {{ $document->user->email ?? 'No Email' }}</p>
-                                <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
-                                <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-
+                @if ($kp->count() > 0)
+                    <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Kerja Praktek
+                    </h1>
+                    <!-- Book Container -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 " data-aos="fade-up">
+                        @foreach ($kp as $document)
+                            <!-- Book Card -->
+                            <a href="{{ route('detail', $document->id) }}"
+                                class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
+                                <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
+                                    alt="Book Cover" class="w-full h-85 object-cover" />
+                                <div class="p-4">
+                                    <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">
+                                        {{ $document->title }}</h2>
+                                    <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                        {{ $document->user->email ?? 'No Email' }}</p>
+                                    <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
+                                    <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </section>
-
 
             <!-- Section Kp (Proposal) -->
             <section class="max-w-6xl mx-auto px-6 py-8">
-                <h1 id="proposal" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Proposal</h1>
-
-                <!-- Book Container for Proposal -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
-                    @foreach ($proposals as $document)
-                        <!-- Book Card -->
-                        <a href="{{ route('detail', $document->id) }}"
-                            class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
-                            <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
-                                alt="Book Cover" class="w-full h-100 object-cover" />
-                            <div class="p-4">
-                                <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
-                                </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM:
-                                    {{ $document->user->email ?? 'No Email' }}</p>
-                                <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
-                                <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-
+                @if ($proposals->count() > 0)
+                    <h1 id="proposal" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Proposal</h1>
+                    <!-- Book Container for Proposal -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
+                        @foreach ($proposals as $document)
+                            <!-- Book Card -->
+                            <a href="{{ route('detail', $document->id) }}"
+                                class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
+                                <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
+                                    alt="Book Cover" class="w-full h-100 object-cover" />
+                                <div class="p-4">
+                                    <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">
+                                        {{ $document->title }}</h2>
+                                    <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                        {{ $document->user->email ?? 'No Email' }}</p>
+                                    <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
+                                    <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </section>
 
             <!-- Section Kp (Skripsi) -->
             <section class="max-w-6xl mx-auto px-6 py-8">
-                <h1 id="ta" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Skripsi</h1>
-                <!-- Book Container for Skripsi -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
-                    @foreach ($skripsi as $document)
-                        <!-- Book Card -->
-                        <a href="{{ route('detail', $document->id) }}"
-                            class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
-                            <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
-                                alt="Book Cover" class="w-full h-100 object-cover" />
-                            <div class="p-4">
-                                <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}
-                                </h2>
-                                <p class="text-gray-500 text-sm mb-1 truncate">NIM:
-                                    {{ $document->user->email ?? 'No Email' }}</p>
-                                <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
-                                <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-
+                @if ($skripsi->count() > 0)
+                    <h1 id="ta" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Skripsi</h1>
+                    <!-- Book Container for Skripsi -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
+                        @foreach ($skripsi as $document)
+                            <!-- Book Card -->
+                            <a href="{{ route('detail', $document->id) }}"
+                                class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
+                                <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
+                                    alt="Book Cover" class="w-full h-100 object-cover" />
+                                <div class="p-4">
+                                    <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">
+                                        {{ $document->title }}</h2>
+                                    <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                        {{ $document->user->email ?? 'No Email' }}</p>
+                                    <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
+                                    <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </section>
 
         </div>

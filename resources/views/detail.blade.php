@@ -148,6 +148,7 @@
                                 </a>
                             </div>
 
+                            @if ($document->category !== 'proposal') 
                             <div class="mt-4 w-full flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4">BAB 4</h2>
                                 <a href="{{ asset('storage/' . $document->bab4) }}" target="_blank" class="relative">
@@ -156,15 +157,34 @@
                                         class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                                 </a>
                             </div>
+                            @endif
+                            @if ($document->category == 'skripsi') 
+                            <div class="mt-4 w-full flex flex-col items-center">
+                                <h2 class="text-xl font-bold mb-4">BAB 5</h2>
+                                <a href="{{ asset('storage/' . $document->bab5) }}" target="_blank" class="relative">
+                                    <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
+                                        alt="{{ $document->title }}"
+                                        class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                                </a>
+                            </div>
+                            @endif
                         @endauth
 
                         <!-- Pesan jika pengguna belum login -->
                         @guest
-                            <div class="mt-4 w-full text-center text-red-600 font-semibold">
-                                <p>Silakan <a href="{{ route('login') }}" class="text-blue-600 underline">login</a> untuk
-                                    melihat BAB 2-4.</p>
-                            </div>
-                        @endguest
+                        <div class="mt-4 w-full text-center text-red-600 font-semibold">
+                            @if ($document->category === 'kp')
+                                <p>Silakan <a href="{{ route('login') }}" class="text-blue-600 underline">login</a> untuk melihat BAB 2-4.</p>
+                            @elseif ($document->category === 'proposal')
+                                <p>Silakan <a href="{{ route('login') }}" class="text-blue-600 underline">login</a> untuk melihat BAB 2-3.</p>
+                            @elseif ($document->category === 'skripsi')
+                                <p>Silakan <a href="{{ route('login') }}" class="text-blue-600 underline">login</a> untuk melihat BAB 2-5.</p>
+                            @else
+                                <p>Silakan <a href="{{ route('login') }}" class="text-blue-600 underline">login</a> untuk melihat dokumen.</p>
+                            @endif
+                        </div>
+                    @endguest
+                    
 
                     </div>
 

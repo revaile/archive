@@ -24,8 +24,13 @@ class Documents extends Model
             'bab2',
             'bab3',
             'bab4',
+            'bab5',
+            'persyaratan',
+            'persyaratan_2',
+            'persyaratan_3',
         ];
 
+        
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

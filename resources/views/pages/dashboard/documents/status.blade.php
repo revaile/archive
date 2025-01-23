@@ -152,7 +152,229 @@
                         </div>
                     </div>
 
-
+                    @if ($document->category === 'kp')
+                    @if ($document->persyaratan)
+                        <div class="mb-6">
+                            {{-- <p class="text-gray-700"><strong>Persyaratan:</strong></p> --}}
+                            <div class="flex flex-col gap-4 mt-2">
+                                @php
+                                    $persyaratanPaths = json_decode($document->persyaratan, true);
+                                    $fileNames = [
+                                        'Daftar Isi, Table, Gambar',
+                                        'Daftar Pustaka',
+                                        'C.01 Persetujuan Mengikuti KP',
+                                        'C.03 Pembimbing Perusahaan',
+                                        'C.03 Pembimbing Praktik',
+                                        'C.04 Permohonan Seminar',
+                                        'C.05 Nilai Kinerja KP Perusahaan',
+                                        'C.06 Nilai Penulisan Laporan KP',
+                                        'C.07 Nilai Seminar KP',
+                                    ];
+                                @endphp
+                
+                                @if (!empty($persyaratanPaths))
+                                    @foreach ($persyaratanPaths as $index => $path)
+                                        <div class="mb-4">
+                                            <p class="text-gray-500 font-medium">
+                                                {{ $fileNames[$index] ?? 'File Persyaratan' }}:
+                                            </p>
+                                            <iframe src="{{ Storage::url($path) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-red-500 font-bold">Tidak ada file persyaratan yang diunggah.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">Tidak ada file persyaratan yang diunggah.</p>
+                        </div>
+                    @endif
+                
+                    @if ($document->persyaratan_2)
+                        <div class="mb-6">
+                            {{-- <p class="text-gray-700"><strong>Persyaratan 2:</strong></p> --}}
+                            <div class="flex flex-col gap-4 mt-2">
+                                @php
+                                    $persyaratan2Paths = json_decode($document->persyaratan_2, true);
+                                    $fileNames2 = [
+                                        'C.08 Rekapitulasi Nilai KP',
+                                        'Lembar Persetujuan Seminar KP',
+                                        'Lembar Pengesahan Seminar KP',
+                                        'F.09 Form Lembar Catatan Seminar',
+                                        'PPT Presentasi PDF',
+                                        'Surat Izin KP Fakultas',
+                                        'Surat Konfirmasi Yayasan',
+                                        'Surat Selesai KP'
+                                    ];
+                                @endphp
+                
+                                @if (!empty($persyaratan2Paths))
+                                    @foreach ($persyaratan2Paths as $index => $path)
+                                        <div class="mb-4">
+                                            <p class="text-gray-500 font-medium">
+                                                {{ $fileNames2[$index] ?? 'File Persyaratan 2' }}:
+                                            </p>
+                                            <iframe src="{{ Storage::url($path) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-red-500 font-bold">Tidak ada file persyaratan tambahan yang diunggah.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">Tidak ada file persyaratan tambahan yang diunggah.</p>
+                        </div>
+                    @endif
+                @elseif ($document->category === 'skripsi')
+                    @if ($document->persyaratan)
+                        <div class="mb-6">
+                            {{-- <p class="text-gray-700"><strong>Persyaratan:</strong></p> --}}
+                            <div class="flex flex-col gap-4 mt-2">
+                                @php
+                                    $persyaratanPaths = json_decode($document->persyaratan, true);
+                                    $fileNames = [
+                                        'Abstrak',
+                                        'Daftar Isi, Gambar, Table',
+                                        'Daftar Pustaka',
+                                        'Artikel Join',
+                                        'Lembar Pengesahan Skripsi'
+                                    ];
+                                @endphp
+                
+                                @if (!empty($persyaratanPaths))
+                                    @foreach ($persyaratanPaths as $index => $path)
+                                        <div class="mb-4">
+                                            <p class="text-gray-500 font-medium">
+                                                {{ $fileNames[$index] ?? 'File Persyaratan' }}:
+                                            </p>
+                                            <iframe src="{{ Storage::url($path) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-red-500 font-bold">Tidak ada file persyaratan yang diunggah.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">Tidak ada file persyaratan yang diunggah.</p>
+                        </div>
+                    @endif
+                
+                    @if ($document->persyaratan_2)
+                        <div class="mb-6">
+                            {{-- <p class="text-gray-700"><strong>Persyaratan 2:</strong></p> --}}
+                            <div class="flex flex-col gap-4 mt-2">
+                                @php
+                                    $persyaratan2Paths = json_decode($document->persyaratan_2, true);
+                                    $fileNames2 = [
+                                        'Lembar Persetujuan Skripsi',
+                                        'Surat Pernyataan Jurnal',
+                                        'Surat Pernyataan Karya Sendiri (Skripsi)',
+                                        'Upload Lembar Bimbingan',
+                                        'Upload SK Pembingbing'
+                                    ];
+                                @endphp
+                
+                                @if (!empty($persyaratan2Paths))
+                                    @foreach ($persyaratan2Paths as $index => $path)
+                                        <div class="mb-4">
+                                            <p class="text-gray-500 font-medium">
+                                                {{ $fileNames2[$index] ?? 'File Persyaratan 2' }}:
+                                            </p>
+                                            <iframe src="{{ Storage::url($path) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-red-500 font-bold">Tidak ada file persyaratan tambahan yang diunggah.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">Tidak ada file persyaratan tambahan yang diunggah.</p>
+                        </div>
+                    @endif
+                @elseif ($document->category === 'proposal')
+                    @if ($document->persyaratan)
+                        <div class="mb-6">
+                            {{-- <p class="text-gray-700"><strong>Persyaratan:</strong></p> --}}
+                            <div class="flex flex-col gap-4 mt-2">
+                                @php
+                                    $persyaratanPaths = json_decode($document->persyaratan, true);
+                                    $fileNames = [
+                                       'Daftar Isi, Table dan Gambar',  
+                                        'Daftar Pustaka',  
+                                        'Pendaftaran Seminar Proposal'
+                                    ];
+                                @endphp
+                
+                                @if (!empty($persyaratanPaths))
+                                    @foreach ($persyaratanPaths as $index => $path)
+                                        <div class="mb-4">
+                                            <p class="text-gray-500 font-medium">
+                                                {{ $fileNames[$index] ?? 'File Persyaratan' }}:
+                                            </p>
+                                            <iframe src="{{ Storage::url($path) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-red-500 font-bold">Tidak ada file persyaratan yang diunggah.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">Tidak ada file persyaratan yang diunggah.</p>
+                        </div>
+                    @endif
+                
+                    @if ($document->persyaratan_2)
+                        <div class="mb-6">
+                            {{-- <p class="text-gray-700"><strong>Persyaratan 2:</strong></p> --}}
+                            <div class="flex flex-col gap-4 mt-2">
+                                @php
+                                    $persyaratan2Paths = json_decode($document->persyaratan_2, true);
+                                    $fileNames2 = [
+                                    'Lembar Persetujuan Proposal',  
+                                    'Lembar Pengesahan Hasil Seminar Proposal',  
+                                    'Lembar Catatan Seminar Proposal',  
+                                    'Dafar Nilai Seminar Proposal'
+                                    ];
+                                @endphp
+                
+                                @if (!empty($persyaratan2Paths))
+                                    @foreach ($persyaratan2Paths as $index => $path)
+                                        <div class="mb-4">
+                                            <p class="text-gray-500 font-medium">
+                                                {{ $fileNames2[$index] ?? 'File Persyaratan 2' }}:
+                                            </p>
+                                            <iframe src="{{ Storage::url($path) }}" class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-red-500 font-bold">Tidak ada file persyaratan tambahan yang diunggah.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">Tidak ada file persyaratan tambahan yang diunggah.</p>
+                        </div>
+                    @endif
+                    @else
+                    <div></div>
+                @endif
+                
+                
+                
+                
+                
+                
                     <!-- File Path -->
                     <!-- Cover (File Path) -->
                     <div class="flex flex-wrap -mx-3 mb-6">
@@ -188,6 +410,7 @@
                             <p class="text-red-500 font-bold">No Document Uploaded</p>
                         </div>
                     @endif
+
                     @if ($document->bab2)
                         <div class="mb-6">
                             <p class="text-gray-700"><strong>BAB 2:</strong></p>
@@ -216,6 +439,7 @@
                         </div>
                     @endif
 
+                    @if ($document->category === 'skripsi' || $document->category === 'kp')
                     @if ($document->bab4)
                         <div class="mb-6">
                             <p class="text-gray-700"><strong>BAB 4:</strong></p>
@@ -228,6 +452,24 @@
                         <div class="mb-6">
                             <p class="text-red-500 font-bold">No Document Uploaded</p>
                         </div>
+                    @endif
+                    @endif
+
+
+                    @if ($document->category === 'skripsi')
+                    @if ($document->bab5)
+                        <div class="mb-6">
+                            <p class="text-gray-700"><strong>BAB 5:</strong></p>
+                            <div class="flex items-center gap-4 mt-2">
+                                <iframe src="{{ Storage::url($document->bab5) }}"
+                                    class="border rounded-lg w-full h-[900px] shadow-md"></iframe>
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6">
+                            <p class="text-red-500 font-bold">No Document Uploaded</p>
+                        </div>
+                    @endif
                     @endif
 
                     <!-- Submit Button -->

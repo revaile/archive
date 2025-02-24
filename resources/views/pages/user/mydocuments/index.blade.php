@@ -8,42 +8,59 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-10 flex gap-5">
-                @if ($documents->pluck('category')->contains('kp'))
-                    <span
-                        class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                <!-- KP Dropdown -->
+                @php
+                    $kpDisabled = $documents->pluck('category')->intersect(['kp', 'mbkm', 'magang'])->isNotEmpty();
+                @endphp
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="if (!{{ $kpDisabled ? 'true' : 'false' }}) open = !open" 
+                            class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg"
+                            :class="{'opacity-50 cursor-not-allowed': {{ $kpDisabled ? 'true' : 'false' }}}"
+                            {{ $kpDisabled ? 'disabled' : '' }}>
                         + Upload KP
-                    </span>
-                @else
-                    <a href="{{ route('user.mydocuments.create', ['category' => 'kp']) }}"
-                        class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                        + Upload KP
-                    </a>
-                @endif
-
-                @if ($documents->pluck('category')->contains('proposal'))
-                    <span
-                        class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute mt-2 w-36 bg-white shadow-lg rounded-lg overflow-hidden z-50">
+                        <a href="{{ route('user.mydocuments.create', ['category' => 'kp']) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">KP</a>
+                        <a href="{{ route('user.mydocuments.create', ['category' => 'mbkm']) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">MBKM</a>
+                        <a href="{{ route('user.mydocuments.create', ['category' => 'magang']) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Magang</a>
+                    </div>
+                </div>
+            
+                <!-- Proposal Dropdown -->
+                @php
+                    $proposalDisabled = $documents->pluck('category')->intersect(['proposal', 'proposal_bersama'])->isNotEmpty();
+                @endphp
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="if (!{{ $proposalDisabled ? 'true' : 'false' }}) open = !open"
+                            class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg"
+                            :class="{'opacity-50 cursor-not-allowed': {{ $proposalDisabled ? 'true' : 'false' }}}"
+                            {{ $proposalDisabled ? 'disabled' : '' }}>
                         + Upload Proposal
-                    </span>
-                @else
-                    <a href="{{ route('user.mydocuments.create', ['category' => 'proposal']) }}"
-                        class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                        + Upload Proposal
-                    </a>
-                @endif
-
-                @if ($documents->pluck('category')->contains('skripsi'))
-                    <span
-                        class="bg-[#facc15] text-white font-bold py-2 px-4 rounded shadow-lg opacity-50 cursor-not-allowed">
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute mt-2 w-44 bg-white shadow-lg rounded-lg overflow-hidden z-50">
+                        <a href="{{ route('user.mydocuments.create', ['category' => 'proposal']) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Proposal</a>
+                        <a href="{{ route('user.mydocuments.create', ['category' => 'proposal_bersama']) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Proposal Bersama</a>
+                    </div>
+                </div>
+            
+                <!-- Skripsi Dropdown -->
+                @php
+                    $skripsiDisabled = $documents->pluck('category')->intersect(['skripsi', 'artikel'])->isNotEmpty();
+                @endphp
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="if (!{{ $skripsiDisabled ? 'true' : 'false' }}) open = !open"
+                            class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg"
+                            :class="{'opacity-50 cursor-not-allowed': {{ $skripsiDisabled ? 'true' : 'false' }}}"
+                            {{ $skripsiDisabled ? 'disabled' : '' }}>
                         + Upload Skripsi
-                    </span>
-                @else
-                    <a href="{{ route('user.mydocuments.create', ['category' => 'skripsi']) }}"
-                        class="bg-[#facc15] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                        + Upload Skripsi
-                    </a>
-                @endif
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute mt-2 w-40 bg-white shadow-lg rounded-lg overflow-hidden z-50">
+                        <a href="{{ route('user.mydocuments.create', ['category' => 'skripsi']) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Skripsi</a>
+                        <a href="{{ route('user.mydocuments.create', ['category' => 'artikel']) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Artikel</a>
+                    </div>
+                </div>
             </div>
+            
             <div class="shadow-lg rounded-lg overflow-hidden">
                 <div class="px-4 py-4 bg-white"> <!-- Ubah px-6 menjadi px-4 -->
                     <table id="crudTable" class="min-w-full table-auto border-collapse border border-gray-200">
@@ -117,4 +134,7 @@
         </div>
     </div>
     
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 </x-app-layout>

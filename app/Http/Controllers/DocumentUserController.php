@@ -28,7 +28,7 @@ class DocumentUserController extends Controller
     public function create($category)
     {
         // Pastikan hanya kategori yang diizinkan
-        $allowedCategories = ['kp', 'proposal', 'skripsi'];
+        $allowedCategories = ['kp', 'proposal', 'skripsi','mbkm','proposal_bersama','artikel','magang'];
     
         if (!in_array($category, $allowedCategories)) {
             abort(404); // Jika kategori tidak valid, kembalikan halaman 404
@@ -63,6 +63,8 @@ class DocumentUserController extends Controller
         'persyaratan.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
         'persyaratan_2' => 'nullable|array', // Validasi array untuk persyaratan_2
         'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid untuk persyaratan_2
+        'link' => 'nullable|url|max:2048', // Validasi untuk link (opsional, harus URL)
+
     ]);
 
     // Simpan file utama di folder 'documents' di disk 'public'
@@ -106,6 +108,8 @@ class DocumentUserController extends Controller
     }
 
 
+    $link = $request->link ?? null;
+
     // Simpan data ke database
     Documents::create([
         'title' => $request->title,
@@ -125,6 +129,8 @@ class DocumentUserController extends Controller
         'bab5' => $bab5Path, // Simpan path Bab 4 jika ada
         'persyaratan' => json_encode($persyaratanPaths), // Simpan array file persyaratan sebagai JSON
         'persyaratan_2' => json_encode($persyaratan2Paths), // Simpan array file persyaratan_2 sebagai JS
+        'link' => $link, // Simpan link ke database
+
     ]);
 
     return redirect()->route('user.mydocuments.index')->with('success', 'Document created successfully.');
@@ -201,6 +207,8 @@ class DocumentUserController extends Controller
             'persyaratan.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
             'persyaratan_2' => 'nullable|array', // Validasi array untuk persyaratan
             'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
+            'link' => 'nullable|url|max:2048', // Validasi untuk link (opsional, harus URL)
+
         ]);
     
         // Perbarui file utama jika ada
@@ -266,6 +274,8 @@ class DocumentUserController extends Controller
         $persyaratan2Paths = array_filter($persyaratan2Paths); // Filter elemen kosong
         
 
+        $link = $request->link ?? null;
+
     
         // Update dokumen di database
         $document->update([
@@ -280,6 +290,7 @@ class DocumentUserController extends Controller
             'bab5' => $bab5Path,
             'persyaratan' => json_encode($persyaratanPaths),
             'persyaratan_2' => json_encode($persyaratan2Paths),
+            'link' => $link, // Simpan link ke database
 
         ]);
     

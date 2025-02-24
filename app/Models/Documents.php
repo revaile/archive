@@ -28,6 +28,7 @@ class Documents extends Model
             'persyaratan',
             'persyaratan_2',
             'persyaratan_3',
+            'link',
         ];
 
         

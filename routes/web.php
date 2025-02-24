@@ -23,7 +23,7 @@ Route::get('/detail', function () {
     return view('detail');
 });
 
-Route::get('/home', [DocumentsController::class, 'home'])->name('home');
+// Route::get('/home', [DocumentsController::class, 'home'])->name('home');
 Route::get('/', [DocumentsController::class, 'page'])->name('index');
 Route::get('/detail/{id}', [DocumentsController::class, 'detail'])->name('detail');
 Route::get('/seacrh', [DocumentsController::class, 'page'])->name('page');

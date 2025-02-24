@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Documents;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,6 +30,8 @@ class DocumentsController extends Controller
         $documentsQuery->where(function ($query) use ($search) {
             $query->where('title', 'ILIKE', "%$search%")
                 ->orWhere('description', 'ILIKE', "%$search%")
+                ->orWhere('category', 'ILIKE', "%$search%")
+                ->orWhere('status', 'ILIKE', "%$search%")
                 ->orWhereHas('user', function ($query) use ($search) {
                     $query->where('email', 'ILIKE', "%$search%");
                 });
@@ -66,8 +69,8 @@ class DocumentsController extends Controller
     }
     
 
-   
 
+    
     public function page(Request $request)
     {
         // Ambil tahun unik
@@ -85,11 +88,12 @@ class DocumentsController extends Controller
             $documentsQuery->where(function ($query) use ($search) {
                 $query->where('title', 'ILIKE', "%$search%")
                     ->orWhere('description', 'ILIKE', "%$search%")
+                    ->orWhere('category', 'ILIKE', "%$search%")
                     ->orWhereHas('user', function ($query) use ($search) {
                         $query->where('email', 'ILIKE', "%$search%");
                     });
             });
-        }   
+        }
     
         // Filter kategori
         if ($request->filled('category')) {
@@ -112,21 +116,43 @@ class DocumentsController extends Controller
             ->get()
             ->keyBy('category');
     
-        // Pisahkan berdasarkan kategori
-        $kp = $documents->filter(function ($doc) {
-            return strtolower($doc->category) === 'kp';
-        });
+        // Fungsi untuk paginate collection
+        function paginateCollection($items, $perPage = 6)
+        {
+            $page = request()->get('page', 1);
+            $paginatedItems = $items->forPage($page, $perPage);
     
-        $proposals = $documents->filter(function ($doc) {
-            return strtolower($doc->category) === 'proposal';
-        });
+            return new LengthAwarePaginator(
+                $paginatedItems,
+                $items->count(),
+                $perPage,
+                $page,
+                ['path' => request()->url()]
+            );
+        }
     
-        $skripsi = $documents->filter(function ($doc) {
-            return strtolower($doc->category) === 'skripsi';
-        });
+        // Pisahkan berdasarkan kategori dan tambahkan pagination
+        $kpfilteredDocuments = paginateCollection($documents->filter(function ($doc) {
+            return in_array(strtolower($doc->category), ['kp', 'mbkm', 'magang']);
+        }));
+    
+        $proposalfilteredDocuments = paginateCollection($documents->filter(function ($doc) {
+            return in_array(strtolower($doc->category), ['proposal', 'proposal_bersama']);
+        }));
+    
+        $skripsifilteredDocuments = paginateCollection($documents->filter(function ($doc) {
+            return in_array(strtolower($doc->category), ['skripsi', 'artikel']);
+        }));
     
         // Kirim data ke view
-        return view('index', compact('categories', 'kp', 'proposals', 'skripsi', 'documents', 'years'));
+        return view('index', compact(
+            'categories',
+            'kpfilteredDocuments',
+            'proposalfilteredDocuments',
+            'skripsifilteredDocuments',
+            'documents',
+            'years'
+        ));
     }
     
 
@@ -155,8 +181,10 @@ public function detail($id)
 public function kp(Request $request)
 {
     // Ambil documents kategori "kp"
-    $query = Documents::where('category', 'kp')
+    $query = Documents::whereIn('category', ['kp', 'mbkm', 'magang'])
     ->where('status', 'approved');
+    
+
 
     // Ambil parameter search dan year
     $search = $request->input('search');
@@ -169,8 +197,19 @@ public function kp(Request $request)
 
     // Filter berdasarkan pencarian jika ada (gunakan ILIKE untuk case-insensitive search)
     if ($search) {
-        $query->where('title', 'ILIKE', '%' . $search . '%');
+        $query->whereIn('category', ['kp', 'mbkm', 'magang']) // Filter hanya kategori tertentu
+              ->where(function ($query) use ($search) {
+                  $query->where('title', 'ILIKE', "%$search%")
+                        ->orWhere('description', 'ILIKE', "%$search%")
+                        ->orWhere('category', 'ILIKE', "%$search%")
+                        ->orWhere('year', 'ILIKE', "%$search%")
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('email', 'ILIKE', "%$search%");
+                        });
+              });
     }
+    
+    
 
     // Ambil data dokumen sesuai query
     $kp = $query->get();
@@ -192,7 +231,7 @@ public function kp(Request $request)
 public function proposal(Request $request)
 {
     // Ambil data proposal berdasarkan kategori
-    $query = Documents::where('category', 'proposal')
+    $query = Documents::whereIn('category', ['proposal', 'proposal_bersama'])
     ->where('status', 'approved');
     
     // Ambil parameter pencarian dan tahun
@@ -206,7 +245,16 @@ public function proposal(Request $request)
 
     // Cek jika ada pencarian, maka filter berdasarkan judul
     if ($search) {
-        $query->where('title', 'ILIKE', '%' . $search . '%');
+        $query->whereIn('category', ['proposal', 'proposal_bersama']) // Filter hanya kategori tertentu
+              ->where(function ($query) use ($search) {
+                  $query->where('title', 'ILIKE', "%$search%")
+                        ->orWhere('description', 'ILIKE', "%$search%")
+                        ->orWhere('category', 'ILIKE', "%$search%")
+                        ->orWhere('year', 'ILIKE', "%$search%")
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('email', 'ILIKE', "%$search%");
+                        });
+              });
     }
 
     // Ambil data proposal yang sudah difilter
@@ -228,7 +276,7 @@ public function proposal(Request $request)
         public function skripsi(Request $request)
         {
         // ambil data proposal
-        $query = Documents::where('category', 'skripsi')
+        $query = Documents::whereIn('category', ['skripsi', 'artikel'])
         ->where('status','approved');
 
         // search
@@ -243,7 +291,16 @@ public function proposal(Request $request)
             
         // filter
         if ($search) {
-            $query->where('title', 'ILIKE', '%' . $search . '%');
+            $query->whereIn('category', ['skripsi', 'artikel']) // Filter hanya kategori tertentu
+                  ->where(function ($query) use ($search) {
+                      $query->where('title', 'ILIKE', "%$search%")
+                            ->orWhere('description', 'ILIKE', "%$search%")
+                            ->orWhere('category', 'ILIKE', "%$search%")
+                            ->orWhere('year', 'ILIKE', "%$search%")
+                            ->orWhereHas('user', function ($query) use ($search) {
+                                $query->where('email', 'ILIKE', "%$search%");
+                            });
+                  });
         }
         $skripsi = $query->get();
         $years = Documents::where('category', 'skripsi') // Ambil daftar tahun unik
@@ -260,9 +317,9 @@ public function proposal(Request $request)
             $userCount = User::count();
     
             // Menghitung jumlah Skripsi, Proposal, dan Kerja Praktek berdasarkan kategori
-            $skripsiCount = Documents::where('category', 'skripsi')->count();
-            $proposalCount = Documents::where('category', 'proposal')->count();
-            $kpCount = Documents::where('category', 'kp')->count();
+            $skripsiCount = Documents::whereIn('category', ['skripsi', 'artikel'])->count();
+            $proposalCount = Documents::whereIn('category', ['proposal','proposal_bersama'])->count();
+            $kpCount = Documents::whereIn('category', ['kp','mbkm','magang'])->count();
     
             // Menghitung jumlah yang selesai (completed) untuk masing-masing kategori
             $skripsiCompleted = Documents::where('category', 'skripsi')->where('status', 'completed')->count();
@@ -280,7 +337,7 @@ public function proposal(Request $request)
                     'bgColor' => 'bg-blue-500',
                 ],
                 [
-                    'title' => 'Skripsi',
+                    'title' => 'Tugas Akhir',
                     'count' => $skripsiCount,
                     'completed' => $skripsiCompleted,
                     'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1920">
@@ -335,9 +392,9 @@ public function proposal(Request $request)
      * Show the form for creating a new document.
      */
    public function create($category)
-{
+    {
     // Pastikan hanya kategori yang diizinkan
-    $allowedCategories = ['kp', 'proposal', 'skripsi'];
+    $allowedCategories = ['kp', 'proposal', 'skripsi','mbkm','proposal_bersama','artikel','magang'];
 
     if (!in_array($category, $allowedCategories)) {
         abort(404); // Jika kategori tidak valid, kembalikan halaman 404
@@ -382,6 +439,7 @@ public function proposal(Request $request)
             'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid untuk persyaratan_2
             // 'persyaratan_3' => 'nullable|array', // Validasi array untuk persyaratan_2
             // 'persyaratan_3.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid untuk persyaratan_2
+            'link' => 'nullable|url|max:2048', // Validasi untuk link (opsional, harus URL)
         ]);
     
         // Simpan file di folder 'documents' di disk 'public'
@@ -429,6 +487,9 @@ public function proposal(Request $request)
             }
         }
 
+        $link = $request->link ?? null;
+
+
         // Tentukan user_id, jika admin dan user_id disediakan gunakan itu, jika tidak gunakan Auth::id()
         $userId = Auth::user()->is_admin && $request->user_id 
                   ? $request->user_id 
@@ -455,6 +516,8 @@ public function proposal(Request $request)
             'persyaratan' => json_encode($persyaratanPaths), // Simpan array file persyaratan sebagai JSON
             'persyaratan_2' => json_encode($persyaratan2Paths), // Simpan array file persyaratan_2 sebagai JSON
             // 'persyaratan_3' => json_encode($persyaratan3Paths), // Simpan array file persyaratan_2 sebagai JSON
+            'link' => $link, // Simpan link ke database
+
             
 
         ]);
@@ -510,6 +573,7 @@ public function proposal(Request $request)
             'persyaratan.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
             'persyaratan_2' => 'nullable|array', // Validasi array untuk persyaratan
             'persyaratan_2.*' => 'file|mimes:pdf,doc,docx|max:51200', // Setiap file dalam array harus valid
+            'link' => 'nullable|url|max:2048', // Validasi untuk link (opsional, harus URL)
             
         ]);
 
@@ -578,6 +642,8 @@ public function proposal(Request $request)
         }
         $persyaratan2Paths = array_filter($persyaratan2Paths); // Filter elemen kosong
         
+        $link = $request->link ?? null;
+
 
         $document->update([
             'title' => $request->title,
@@ -595,7 +661,7 @@ public function proposal(Request $request)
             'bab5' => $bab5Path,
             'persyaratan' => json_encode($persyaratanPaths),
             'persyaratan_2' => json_encode($persyaratan2Paths),
-
+            'link' => $link, // Simpan link ke database
 
         ]);
 

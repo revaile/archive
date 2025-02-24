@@ -128,7 +128,7 @@
 
             <!-- Filter Section Start -->
           <!-- Filter Section Start -->
-          <div class="mt-6">
+          {{-- <div class="mt-6">
             <form method="GET" action="{{ route('kp') }}">
                 <label for="yearFilter" class="text-gray-700 font-medium text-lg">Filter by Year:</label>
                 <select name="year" id="yearFilter" onchange="this.form.submit()"
@@ -142,10 +142,10 @@
                     @endforeach
                 </select>
             </form>
-        </div>
+        </div> --}}
             <!-- Filter Section End -->
 
-            <div class="mt-6">
+            <div class="mt-12">
                 <hr class="border-t-2 border-gray-300 mb-8">
             </div>
         </div>
@@ -177,6 +177,7 @@
                         alt="Book Cover" class="w-full h-85 object-cover" />
                     <div class="p-4">
                         <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ $document->title }}</h2>
+                        <p class="text-gray-500 text-sm mb-1">{{ $document->category=== 'kp' ?'Kerja Praktek' : ucfirst($document->category) }}</p>
                         <p class="text-gray-500 text-sm mb-1 truncate">NIM: {{ $document->user->email ?? 'No Email' }}
                         </p>
                         <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>

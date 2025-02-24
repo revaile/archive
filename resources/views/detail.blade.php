@@ -105,7 +105,7 @@
         <div class="relative flex flex-row gap-8 w-full max-w-7xl mx-auto mt-12">
             <!-- Section Detail -->
             
-            <section class="bg-white p-8 max-w-4xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl">
+            <section class="bg-white p-8 max-w-7xl shadow-lg flex-1 sm:px-10 mx-2 rounded-xl">
                 <div class="flex flex-col md:flex-row items-start">
                     <div class="md:w-1/3 flex justify-center flex-col items-center">
                         <!-- Link untuk download gambar -->
@@ -114,28 +114,39 @@
                             <!-- Gambar dengan efek zoom saat hover -->
                             <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                 alt="{{ $document->title }}"
-                                class="rounded-lg shadow-lg w-full h-auto transform transition duration-300 ease-in-out hover:scale-110">
+                                class="rounded-lg shadow-lg w-auto h-auto transform transition duration-300 ease-in-out hover:scale-110">
                         </a>
 
                         <div class="mt-4 w-full flex flex-col items-center">
                             <!-- Judul BAB 1 -->
-                            <h2 class="text-xl font-bold mb-4">BAB 1</h2>
-
+                            <h2 class="text-xl font-bold mb-4">
+                                @if ($document->category == 'artikel')
+                                    Artikel
+                                @elseif ($document->category == 'mbkm')
+                                    Sertifikat MBKM
+                                @elseif ($document->category == 'magang')
+                                    Sertifikat Magang
+                                @else
+                                    BAB 1
+                                @endif
+                            </h2>
+                            
                             <!-- Cover yang bisa diklik untuk membuka PDF -->
                             <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank" class="relative">
                                 <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                     alt="{{ $document->title }}"
-                                    class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                                    class="rounded-lg shadow-lg w-auto h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                             </a>
                         </div>
                         <!-- BAB 2-4 (Hanya untuk Pengguna yang Sudah Login) -->
                         @auth
+                    @if (!in_array($document->category, ['artikel', 'mbkm', 'magang']))
                             <div class="mt-4 w-full flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4">BAB 2</h2>
                                 <a href="{{ asset('storage/' . $document->bab2) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                         alt="{{ $document->title }}"
-                                        class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                                        class="rounded-lg shadow-lg w-auto h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                                 </a>
                             </div>
 
@@ -144,17 +155,17 @@
                                 <a href="{{ asset('storage/' . $document->bab3) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                         alt="{{ $document->title }}"
-                                        class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                                        class="rounded-lg shadow-lg w-auto h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                                 </a>
                             </div>
 
-                            @if ($document->category !== 'proposal') 
+                            @if (!in_array($document->category, ['proposal', 'proposal_bersama']))
                             <div class="mt-4 w-full flex flex-col items-center">
                                 <h2 class="text-xl font-bold mb-4">BAB 4</h2>
                                 <a href="{{ asset('storage/' . $document->bab4) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                         alt="{{ $document->title }}"
-                                        class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                                        class="rounded-lg shadow-lg w-auto h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                                 </a>
                             </div>
                             @endif
@@ -164,10 +175,11 @@
                                 <a href="{{ asset('storage/' . $document->bab5) }}" target="_blank" class="relative">
                                     <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/220x330' }}"
                                         alt="{{ $document->title }}"
-                                        class="rounded-lg shadow-lg w-64 h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                                        class="rounded-lg shadow-lg w-auto h-auto transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                                 </a>
                             </div>
                             @endif
+                        @endif    
                         @endauth
 
                         <!-- Pesan jika pengguna belum login -->
@@ -180,7 +192,6 @@
                             @elseif ($document->category === 'skripsi')
                                 <p>Silakan <a href="{{ route('login') }}" class="text-blue-600 underline">login</a> untuk melihat BAB 2-5.</p>
                             @else
-                                <p>Silakan <a href="{{ route('login') }}" class="text-blue-600 underline">login</a> untuk melihat dokumen.</p>
                             @endif
                         </div>
                     @endguest
@@ -197,9 +208,9 @@
 
                         <!-- Informasi NIM, Year, dan Category -->
                         <p class="text-lg sm:text-xl text-gray-500 mb-4">
+                            {{ ucfirst($document->category) }} <br>
                             <strong>NIM:</strong> {{ $document->user->email ?? 'No Email' }} <br>
                             <strong>Year:</strong> {{ $document->year }} <br>
-                            <strong>Category:</strong> {{ ucfirst($document->category) }}
                         </p>
 
                         <!-- Sinopsis -->
@@ -215,28 +226,27 @@
             </section>
 
             <!-- Related Books -->
-            <section class="p-4 sm:p-8 max-w-md flex-1">
-                <h1 class=" text-yellow-400 font-bold text-sm mb-4 sm:text-xl">Related Documents</h1>
-                <div class="grid gap-6">
-                    @foreach ($relatedDocuments as $related)
-                        <a href="{{ route('detail', $related->id) }}" class="block">
-                            <div
-                                class="flex flex-col sm:flex-row gap-4 p-4 bg-white shadow-lg rounded-lg max-h-80 overflow-hidden">
-                                <img src="{{ $related->cover ? asset('storage/' . $related->cover) : 'https://via.placeholder.com/150x220' }}"
-                                    alt="{{ $related->title }}" class="w-full sm:w-30 h-auto sm:h-40 rounded-lg">
-                                <div class="">
-                                    <h2 class="text-[10px] sm:text-lg font-bold text-gray-800">{{ $related->title }}
-                                    </h2>
-                                    {{-- <p class="text-[8px] sm:text-sm text-gray-600">By NIM: {{ $document->user->email ?? 'No Email' }}</p> --}}
-                                    <p class="text-[8px] sm:text-sm text-gray-600">Year: {{ $related->year }}</p>
-                                    <p class="text-[8px] sm:text-sm text-gray-600">Description:
-                                        {{ $related->description }}</p>
+            {{-- <section class="p-4 sm:p-8 max-w-md flex-1">
+                @if ($relatedDocuments->isNotEmpty())  <!-- Memeriksa apakah ada dokumen terkait -->
+                    <h1 class="text-yellow-400 font-bold text-sm mb-4 sm:text-xl">Related Documents</h1>
+                    <div class="grid gap-6">
+                        @foreach ($relatedDocuments as $related)
+                            <a href="{{ route('detail', $related->id) }}" class="block">
+                                <div class="flex flex-col sm:flex-row gap-4 p-4 bg-white shadow-lg rounded-lg max-h-80 overflow-hidden">
+                                    <img src="{{ $related->cover ? asset('storage/' . $related->cover) : 'https://via.placeholder.com/150x220' }}"
+                                        alt="{{ $related->title }}" class="w-full sm:w-30 h-auto sm:h-40 rounded-lg">
+                                    <div>
+                                        <h2 class="text-[10px] sm:text-lg font-bold text-gray-800">{{ $related->title }}</h2>
+                                        <p class="text-[8px] sm:text-sm text-gray-600">Year: {{ $related->year }}</p>
+                                        <p class="text-[8px] sm:text-sm text-gray-600">Description: {{ $related->description }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            </section>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+            </section> --}}
+            
         </div>
     </main>
 

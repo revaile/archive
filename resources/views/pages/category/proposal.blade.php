@@ -119,7 +119,7 @@
         <div class="container mx-auto text-center">
             <h1 class="text-4xl font-bold text-gray-800">Proposal</h1>
             <!-- Filter Section Start -->
-            <div class="mt-6">
+            {{-- <div class="mt-6">
                 <form method="GET" action="{{ route('proposal') }}">
                     <label for="yearFilter" class="text-gray-700 font-medium text-lg">Filter by Year:</label>
                     <select name="year" id="yearFilter" onchange="this.form.submit()"
@@ -132,9 +132,9 @@
                         @endforeach
                     </select>
                 </form>
-            </div>
+            </div> --}}
             <!-- Filter Section End -->
-            <div class="mt-2">
+            <div class="mt-12">
                 <hr class="border-t-2 border-gray-300 mb-8">
             </div>
         </div>

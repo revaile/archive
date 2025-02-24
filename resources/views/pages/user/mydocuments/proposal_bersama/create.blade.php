@@ -15,8 +15,10 @@
                     {{-- <div class="mb-4">
                         <label for="nim" class="block text-sm font-medium text-gray-700">Nim</label>
                         <input type="text" name="nim" id="nim"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            required>
                     </div> --}}
+
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-700">Nim</label>
                         <input type="text" name="email" id="email" value="{{ $email }}" readonly
@@ -26,8 +28,7 @@
                     
 
                     <div class="mb-4">
-                        <label for="title" class="block text-sm font-medium text-gray-700">Judul
-                            {{ ucfirst($category) }}</label>
+                        <label for="title" class="block text-sm font-medium text-gray-700">Judul Proposal</label>
                         <input type="text" name="title" id="title"
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             required>
@@ -55,6 +56,7 @@
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             required></textarea>
                     </div>
+
                     <div class="mb-4">
                         <label for="cover" class="block text-sm font-medium text-gray-700 mb-2">Upload Cover</label>
                         <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
@@ -73,7 +75,9 @@
                             </div>
                         </div>
                     </div>
+              
 
+                    {{-- 1 --}}
                     <div class="mb-4">
                         <label for="file-1" class="block text-sm font-medium text-gray-700 mb-2">Upload Daftar Isi, Table, Gambar</label>
                         <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
@@ -130,7 +134,7 @@
                         </div>
                     </div>
                     
-                    <div class="mb-4">
+                    {{-- <div class="mb-4">
                         <label for="file-bab-4" class="block text-sm font-medium text-gray-700 mb-2">Upload BAB 4</label>
                         <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
                             <input type="file" id="file-bab-4" name="bab4" accept="application/pdf" 
@@ -142,7 +146,7 @@
                                 <span class="text-gray-600" id="preview-bab-4">Pilih file PDF</span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="mb-4">
                         <label for="file-1" class="block text-sm font-medium text-gray-700 mb-2">Upload Daftar Pustaka</label>
@@ -159,24 +163,10 @@
                     </div>
 
                     {{--  --}}
-                    <div class="space-y-4">
-                        <div class="mb-4">
-                            <label for="file-1" class="block text-sm font-medium text-gray-700 mb-2">Upload C.01 Persetujuan Mengikuti KP</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-1" name="persyaratan[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-1">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
-                    
+                    <div class="space-y-4"> 
                         <!-- Repeat for other files -->
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload C.03 Pembimbing Perusahaan</label>
+                        {{-- <div class="mb-4">
+                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload Resi UKT</label>
                             <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
                                 <input type="file" id="file-19" name="persyaratan[]" accept="application/pdf" 
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
@@ -187,11 +177,11 @@
                                     <span class="text-gray-600" id="preview-file-19">Pilih file PDF</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     
                         <!-- Add more file inputs as needed -->
                         <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload C.03 Pembimbing Praktik</label>
+                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload Pendaftaran Seminar Proposal</label>
                             <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
                                 <input type="file" id="file-20" name="persyaratan[]" accept="application/pdf" 
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
@@ -204,7 +194,7 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload C.04 Permohonan Seminar</label>
+                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload Lembar Persetujuan Proposal</label>
                             <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
                                 <input type="file" id="file-4" name="persyaratan[]" accept="application/pdf" 
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
@@ -216,10 +206,14 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- 4 --}}
+
+                        {{-- 1 --}}
                         <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload C.05 Nilai Kinerja KP Perusahaan </label>
+                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Lembar Pengesahan Hasil Seminar Proposal</label>
                             <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-5" name="persyaratan[]" accept="application/pdf" 
+                                <input type="file" id="file-5" name="persyaratan_2[]" accept="application/pdf" 
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
                                 <div class="flex items-center justify-center">
                                     <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -230,9 +224,9 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload C.06 Nilai Penulisan Laporan KP</label>
+                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Lembar Catatan Seminar Proposal</label>
                             <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-6" name="persyaratan[]" accept="application/pdf" 
+                                <input type="file" id="file-6" name="persyaratan_2[]" accept="application/pdf" 
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
                                 <div class="flex items-center justify-center">
                                     <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -243,124 +237,32 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload C.07 Nilai Seminar KP</label>
+                            <label for="file-1" class="block text-sm font-medium text-gray-700 mb-2">Upload Daftar Nilai Seminar Proposal</label>
                             <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-7" name="persyaratan[]" accept="application/pdf" 
+                                <input type="file" id="file-1" name="persyaratan_2[]" accept="application/pdf" 
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
                                 <div class="flex items-center justify-center">
                                     <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                     </svg>
-                                    <span class="text-gray-600" id="preview-file-7">Pilih file PDF</span>
+                                    <span class="text-gray-600" id="preview-file-1">Pilih file PDF</span>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload C.08 Rekaptulasi Nilai KP</label>
+                            <label for="file-1" class="block text-sm font-medium text-gray-700 mb-2">Surat Penelitian Bersama Dosen dan Mahasiswa</label>
                             <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-8" name="persyaratan_2[]" accept="application/pdf" 
+                                <input type="file" id="file-70" name="persyaratan_2[]" accept="application/pdf" 
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
                                 <div class="flex items-center justify-center">
                                     <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                     </svg>
-                                    <span class="text-gray-600" id="preview-file-8">Pilih file PDF</span>
+                                    <span class="text-gray-600" id="preview-file-70">Pilih file PDF</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload lembar persetujuan seminar KP</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-9" name="persyaratan_2[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-9">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload lembar pengesahan seminar KP</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-10" name="persyaratan_2[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-10">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">F.09 Form Lembar Catatan Seminar</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-11" name="persyaratan_2[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-11">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">ppt presemtasi pdf</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-12" name="persyaratan_2[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-12">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">surat izin KP fakultas</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-13" name="persyaratan_2[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-13">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">surat konfirmasi yayasan</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-14" name="persyaratan_2[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-14">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
-
-                
-                        <div class="mb-4">
-                            <label for="file-3" class="block text-sm font-medium text-gray-700 mb-2">Upload surat selesai kp</label>
-                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                                <input type="file" id="file-16" name="persyaratan_2[]" accept="application/pdf" 
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span class="text-gray-600" id="preview-file-16">Pilih file PDF</span>
-                                </div>
-                            </div>
-                        </div>
+                       
                    
                     </div>
 
@@ -442,6 +344,7 @@
                                 updatePreview(newInput, newPreview);
                             });
                         });
-                    </script>     
+                    </script>  
+
 
 </x-app-layout>

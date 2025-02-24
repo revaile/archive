@@ -184,19 +184,36 @@
             <!-- Count Section -->
             <section class="py-12" data-aos="fade-in">
                 <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center">
-                    @foreach ($categories as $category => $data)
+                    @php
+                        $customCategories = [];
+                        foreach ($categories as $category => $data) {
+                            if (in_array($category, ['skripsi', 'artikel'])) {
+                                $customCategories['Tugas Akhir'] = ($customCategories['Tugas Akhir'] ?? 0) + $data->count;
+                            } elseif (in_array($category, ['proposal', 'proposal_bersama'])) {
+                                $customCategories['Proposal'] = ($customCategories['Proposal'] ?? 0) + $data->count;
+                            } elseif (in_array($category, ['mbkm', 'magang', 'kp'])) {
+                                $customCategories['KP'] = ($customCategories['KP'] ?? 0) + $data->count;
+                            } else {
+                                $customCategories[ucfirst($category)] = $data->count;
+                            }
+                        }
+                    @endphp
+            
+                    @foreach ($customCategories as $category => $count)
                         <div
                             class="bg-white shadow-md rounded-lg p-4 sm:p-6 transform hover:scale-105 transition-transform duration-300">
                             <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#facc15]">
-                                {{ $data->count }}+
+                                {{ $count }}+
                             </h2>
                             <p class="mt-2 text-sm sm:text-base md:text-lg text-gray-700 font-medium">
-                                {{ ucfirst($category) }}
+                                {{ $category }}
                             </p>
                         </div>
                     @endforeach
                 </div>
             </section>
+            
+            
 
 
 
@@ -219,9 +236,15 @@
                             <option value="">Pilih Kategori</option>
                             <option value="kp" {{ request('category') == 'kp' ? 'selected' : '' }}>Kerja Praktek
                             </option>
-                            <option value="skripsi" {{ request('category') == 'skripsi' ? 'selected' : '' }}>Skripsi
+                            <option value="magang" {{ request('category') == 'magang' ? 'selected' : '' }}>Magang
+                            </option>
+                            <option value="mbkm" {{ request('category') == 'mbkm' ? 'selected' : '' }}>MBKM
                             </option>
                             <option value="proposal" {{ request('category') == 'proposal' ? 'selected' : '' }}>Proposal
+                            </option>
+                            <option value="skripsi" {{ request('category') == 'skripsi' ? 'selected' : '' }}>Skripsi
+                            </option>
+                            <option value="artikel" {{ request('category') == 'artikel' ? 'selected' : '' }}>Artikel
                             </option>
                         </select>
 
@@ -247,39 +270,41 @@
                     </form>
                 </div>
 
-                @if ($kp->count() > 0)
-                    <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Kerja Praktek
-                    </h1>
-                    <!-- Book Container -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 " data-aos="fade-up">
-                        @foreach ($kp as $document)
-                            <!-- Book Card -->
-                            <a href="{{ route('detail', $document->id) }}"
-                                class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
-                                <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
-                                    alt="Book Cover" class="w-full h-85 object-cover" />
-                                <div class="p-4">
-                                    <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">
-                                        {{ $document->title }}</h2>
-                                    <p class="text-gray-500 text-sm mb-1 truncate">NIM:
-                                        {{ $document->user->email ?? 'No Email' }}</p>
+                @if ($kpfilteredDocuments->count() > 0)
+                <h1 id="documents" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Kerja Praktek</h1>
+                <!-- Book Container -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 " data-aos="fade-up">
+                    @foreach ($kpfilteredDocuments as $document)
+                        <!-- Book Card -->
+                        <a href="{{ route('detail', $document->id) }}"
+                            class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
+                            <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
+                                alt="Book Cover" class="w-full h-85 object-cover" />
+                            <div class="p-4">
+                                <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">
+                                    {{ $document->title }}</h2>
+                                    <p class="text-gray-500 text-sm mb-1">
+                                        {{ $document->category === 'kp' ? 'Kerja Praktek' : ($document->category === 'mbkm' ? strtoupper($document->category) : ucfirst($document->category)) }}
+                                    </p>                                    
+                                        <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                    {{ $document->user->email ?? 'No Email' }}</p>
                                     <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
-                                    <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-                @endif
+                                <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            @endif
             </section>
 
             <!-- Section Kp (Proposal) -->
             <section class="max-w-6xl mx-auto px-6 py-8">
-                @if ($proposals->count() > 0)
+                @if ($proposalfilteredDocuments->count() > 0)
                     <h1 id="proposal" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Proposal</h1>
                     <!-- Book Container for Proposal -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
-                        @foreach ($proposals as $document)
-                            <!-- Book Card -->
+                        @foreach ($proposalfilteredDocuments as $document)
+                        <!-- Book Card -->
                             <a href="{{ route('detail', $document->id) }}"
                                 class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
                                 <img src="{{ $document->cover ? asset('storage/' . $document->cover) : 'https://via.placeholder.com/150x220' }}"
@@ -300,11 +325,11 @@
 
             <!-- Section Kp (Skripsi) -->
             <section class="max-w-6xl mx-auto px-6 py-8">
-                @if ($skripsi->count() > 0)
-                    <h1 id="ta" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Skripsi</h1>
+                @if ($skripsifilteredDocuments->count() > 0)
+                    <h1 id="ta" class="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-up">Tugas Akhir</h1>
                     <!-- Book Container for Skripsi -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
-                        @foreach ($skripsi as $document)
+                        @foreach ($skripsifilteredDocuments as $document)
                             <!-- Book Card -->
                             <a href="{{ route('detail', $document->id) }}"
                                 class="bg-yellow-50 shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform hover:border-2 hover:border-[#facc15]">
@@ -313,7 +338,9 @@
                                 <div class="p-4">
                                     <h2 class="font-semibold text-lg text-gray-800 mb-2 truncate">
                                         {{ $document->title }}</h2>
-                                    <p class="text-gray-500 text-sm mb-1 truncate">NIM:
+                                        <p class="text-gray-500 text-sm mb-1">
+                                            {{ in_array(strtolower($document->category), ['skripsi', 'artikel']) ? ucfirst($document->category) : $document->category }}
+                                        </p>                                                                            <p class="text-gray-500 text-sm mb-1 truncate">NIM:
                                         {{ $document->user->email ?? 'No Email' }}</p>
                                     <p class="text-gray-500 text-sm mb-1">Year: {{ $document->year }}</p>
                                     <p class="text-gray-400 text-sm truncate">{{ $document->description }}</p>

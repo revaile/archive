@@ -233,30 +233,43 @@
     
     
                     <!-- Upload File PDF (BAB 1) -->
-                    <div class="mb-4">
-                        <label for="file" class="block text-sm font-medium text-gray-700 mb-2">BAB 1</label>
-                        <div
-                            class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
-                            <input type="file" name="file" id="file" accept="application/pdf"
-                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                            <div class="flex items-center justify-center">
-                                <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4" />
-                                </svg>
-                                <span id="preview-file">Pilih file PDF</span>
-                            </div>
-                        </div>
-                        <span id="file-preview-1" class="text-gray-600 mt-2"></span>
-                        @if ($document->file_path)
-                            <p class="mt-2 text-sm text-gray-600">File saat ini:
-                                <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank"
-                                    class="text-blue-500 underline">Lihat file</a>
-                            </p>
+                      <!-- Upload File PDF (BAB 1) -->
+                <div class="mb-4">
+                    <label for="file" class="block text-sm font-medium text-gray-700 mb-2">
+                        @if (in_array($document->category, ['mbkm', 'magang']))
+                            Sertifikat Selesai Program
+                        @elseif ($document->category === 'artikel')
+                            Artikel
+                        @else
+                            BAB 1
                         @endif
+                    </label>
+                
+                    <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
+                        <input type="file" name="file" id="file" accept="application/pdf" 
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                        <div class="flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span id="preview-file">Pilih file PDF</span>
+                        </div>
                     </div>
+                
+                    <span id="file-preview-1" class="text-gray-600 mt-2"></span>
+                
+                    @if ($document->file_path)
+                        <p class="mt-2 text-sm text-gray-600">File saat ini:
+                            <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank"
+                                class="text-blue-500 underline">Lihat file</a>
+                        </p>
+                    @endif
+                </div>
     
+
+                    @if (!in_array($document->category, ['mbkm', 'magang', 'artikel']))
                     <!-- Upload BAB 2 -->
                     <div class="mb-4">
                         <label for="file-bab-2" class="block text-sm font-medium text-gray-700 mb-2">BAB 2</label>
@@ -305,10 +318,8 @@
                         @endif
                     </div>
     
-    
-    
                     <!-- Upload BAB 4 -->
-                    @if ($document->category !== 'proposal') 
+                    @if (!in_array($document->category, ['proposal', 'proposal_bersama']))
                     <div class="mb-4">
                         <label for="file-bab-4" class="block text-sm font-medium text-gray-700 mb-2">BAB 4</label>
                         <div
@@ -332,6 +343,8 @@
                         @endif
                     </div>
                     @endif
+
+                @endif
     
                     @if ($document->category == 'skripsi') 
                     <div class="mb-4">
@@ -360,19 +373,50 @@
     
                     
     
-                    {{-- kp --}}
-                    @if ($document->category === 'kp')
-                    @include('includes.kp')
-                    @endif
-    
-                    {{-- skripsi --}}
-                    @if ($document->category === 'skripsi')
-                    @include('includes.skripsi')
-                    @endif
-                    {{-- skripsi --}}
-                    @if ($document->category === 'proposal')
-                    @include('includes.proposal')
-                    @endif
+                     {{-- kp --}}
+                @if ($document->category === 'kp')
+                @include('includes.kp')
+                @endif
+
+                {{-- skripsi --}}
+                @if ($document->category === 'skripsi')
+                @include('includes.skripsi')
+                @endif
+                {{-- skripsi --}}
+                @if ($document->category === 'proposal')
+                @include('includes.proposal')
+                @endif
+                {{-- proposal bersama --}}
+                @if ($document->category === 'proposal_bersama')
+                @include('includes.proposal_bersama')
+                @endif
+                {{-- mbkm,magang --}}
+                @if (in_array($document->category, ['mbkm', 'magang']))
+                @include('includes.mbkm')
+                @endif
+                {{-- artikel --}}
+                @if ($document->category === 'artikel')
+                @include('includes.artikel')
+                
+
+                <div class="mb-4">
+                    <label for="link" class="block text-sm font-medium text-gray-700 mb-2">
+                        Upload link artikel yang terbit atau link jurnal
+                    </label>
+                    <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-500 transition duration-200">
+                        <input 
+                            type="url" 
+                            id="link" 
+                            name="link" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-indigo-600 underline" 
+                            placeholder="Masukkan link artikel atau jurnal" 
+                            pattern="https?://.*" 
+                            title="Masukkan URL yang valid, dimulai dengan http:// atau https://" 
+                            value="{{ old('link', $document->link) }}">
+                    </div>
+                </div> 
+            @endif
+                    
                 
                   
     
@@ -415,6 +459,45 @@
         document.getElementById("file").addEventListener("change", function () {
             updatePreview(this, document.getElementById("preview-file"));
         });
+
+        const input = document.getElementById('link');
+
+// Variabel untuk menangani double-click
+let clickCount = 0;
+
+input.addEventListener('click', function(event) {
+    clickCount++;
+
+    if (clickCount === 1) {
+        // Single-click: Biarkan pengguna mengedit
+        input.focus();
+    } else if (clickCount === 2) {
+        // Double-click: Buka link di tab baru
+        if (input.value && input.value.startsWith('http')) {
+            window.open(input.value, '_blank');
+        }
+        clickCount = 0; // Reset click count
+    }
+
+    // Reset click count setelah 300ms
+    setTimeout(() => {
+        clickCount = 0;
+    }, 300);
+});
+
+// Mengubah cursor saat hover di atas teks
+input.addEventListener('mousemove', function(event) {
+    const rect = input.getBoundingClientRect();
+    const textWidth = input.scrollWidth; // Lebar teks di dalam input
+    const paddingLeft = parseFloat(window.getComputedStyle(input).paddingLeft); // Padding kiri
+
+    // Jika kursor berada di atas teks (bukan padding atau area kosong)
+    if (event.clientX - rect.left > paddingLeft && event.clientX - rect.left < textWidth + paddingLeft) {
+        input.style.cursor = 'pointer'; // Cursor jari
+    } else {
+        input.style.cursor = 'default'; // Cursor panah
+    }
+});
     </script>
     
     </x-app-layout>

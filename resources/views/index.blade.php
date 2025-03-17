@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MyBook UI</title>
+        <title>Arsip</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
     </head>
@@ -367,21 +367,21 @@
                 <div class="mb-6 md:mb-0">
                     <h3 class="font-bold mb-4 text-lg md:text-xl">Layanan Akademik</h3>
                     <ul class="space-y-2 text-sm md:text-base">
-                        <li><a href="#" class="hover:underline">Sistem Informasi Layanan Akademik (SALAM)</a>
+                        <li><a href="https://salam.uinsgd.ac.id/dashboard/login.php" class="hover:underline">Sistem Informasi Layanan Akademik (SALAM)</a>
                         </li>
-                        <li><a href="#" class="hover:underline">Learning Management System (LMS)</a></li>
-                        <li><a href="#" class="hover:underline">E-Library UIN Sunan Gunung Djati</a></li>
-                        <li><a href="#" class="hover:underline">E-Library Teknik Informatika</a></li>
-                        <li><a href="#" class="hover:underline">Jurnal Online Informatika</a></li>
+                        <li><a href="https://eknows.uinsgd.ac.id/" class="hover:underline">Learning Management System (LMS)</a></li>
+                        <li><a href="https://if.uinsgd.ac.id/#" class="hover:underline">Teknik Informatika UIN Sunan Gunung Djati</a></li>
+                        <li><a href="https://informatika.digital/" class="hover:underline">Informatika Digital</a></li>
+                        <li><a href="https://join.if.uinsgd.ac.id/index.php/join" class="hover:underline">Jurnal Online Informatika</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-bold mb-4 text-lg md:text-xl">Akses Cepat</h3>
                     <ul class="space-y-2 text-sm md:text-base">
-                        <li><a href="#" class="hover:underline">Fakultas Sains Dan Teknologi</a></li>
-                        <li><a href="#" class="hover:underline">UIN Sunan Gunung Djati</a></li>
-                        <li><a href="#" class="hover:underline">SINTA Dikti Kemdikbud RI</a></li>
-                        <li><a href="#" class="hover:underline">Pangkalan Data DIKTI Kemdikbud RI</a></li>
+                        <li><a href="https://fst.uinsgd.ac.id/" class="hover:underline">Fakultas Sains Dan Teknologi</a></li>
+                        <li><a href="https://uinsgd.ac.id/" class="hover:underline">UIN Sunan Gunung Djati</a></li>
+                        <li><a href="https://sinta.kemdikbud.go.id/" class="hover:underline">SINTA Dikti Kemdikbud RI</a></li>
+                        <li><a href="https://pddikti.kemdiktisaintek.go.id/" class="hover:underline">Pangkalan Data DIKTI Kemdikbud RI</a></li>
                     </ul>
                 </div>
             </div>

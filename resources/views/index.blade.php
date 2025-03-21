@@ -220,10 +220,34 @@
             <!-- Section Kp ( -->
             <!-- Section Kp ( -->
             <section class="max-w-6xl mx-auto px-6 py-8">
-                <h1 id="kp" class="text-3xl font-bold text-gray-800 mb-8 text-center">All Documents</h1>
-
-                <!-- Horizontal Line -->
-                <hr class="border-t-2 border-gray-300 mb-8">
+                <h1 id="kp" class="text-3xl sm:text-5xl font-extrabold text-gray-900 tracking-wide leading-tight text-center drop-shadow-lg">
+                    All Documents
+                </h1>
+                
+                <!-- Garis dengan Elemen Tengah -->
+                <div class="mt-4 flex justify-center mb-10">
+                    <div class="relative w-56 h-1 bg-gray-400 rounded-full overflow-hidden">
+                        <div class="absolute top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white border-2 border-gray-700 rounded-full shadow-md animate-move-dot"></div>
+                    </div>
+                </div>
+                
+                <style>
+                @keyframes move-dot {
+                    0%, 100% {
+                        left: 0%;
+                    }
+                    50% {
+                        left: 100%;
+                        transform: translateX(-100%) translateY(-50%);
+                    }
+                }
+                
+                .animate-move-dot {
+                    animation: move-dot 2s infinite alternate ease-in-out;
+                }
+                </style>
+                
+                
                 <!-- Search Box untuk KP -->
                 <div class="flex justify-between">
                     <form method="GET" action="{{ route('page') }}" class="relative mb-6 flex flex-wrap gap-4">
@@ -294,6 +318,16 @@
                         </a>
                     @endforeach
                 </div>
+
+                <div class="text-end mt-6">
+                    <a href="{{ route('kp') }}" 
+                        class="inline-flex items-center text-gray-700 font-semibold hover:underline transform transition-all duration-200 hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 1 1 8 8M4 12h4m-4 0 4-4" />
+                        </svg>
+                        Load More...
+                    </a>
+                </div>
             @endif
             </section>
 
@@ -319,6 +353,15 @@
                                 </div>
                             </a>
                         @endforeach
+                    </div>
+                    <div class="text-end mt-6">
+                        <a href="{{ route('proposal') }}" 
+                            class="inline-flex items-center text-gray-700 font-semibold hover:underline transform transition-all duration-200 hover:scale-105">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 1 1 8 8M4 12h4m-4 0 4-4" />
+                            </svg>
+                            Load More...
+                        </a>
                     </div>
                 @endif
             </section>
@@ -348,6 +391,18 @@
                             </a>
                         @endforeach
                     </div>
+                       <!-- Load More Button -->
+           <!-- Load More Button -->
+           <div class="text-end mt-6">
+            <a href="{{ route('skripsi') }}" 
+                class="inline-flex items-center text-gray-700 font-semibold hover:underline transform transition-all duration-200 hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 1 1 8 8M4 12h4m-4 0 4-4" />
+                </svg>
+                Load More...
+            </a>
+        </div>
+        
                 @endif
             </section>
 

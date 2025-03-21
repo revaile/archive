@@ -51,7 +51,7 @@
                 const barChart = new Chart(barCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['Users', 'Tugas Akhir', 'Proposal', 'Kerja Praktek'], // Label ini bisa disesuaikan
+                        labels: ['Users', 'Kerja Praktek', 'Proposal', 'Tugas Akhir'], // Label ini bisa disesuaikan
                         datasets: [{
                             label: 'Data Distribution',
                             data: counts, // Gunakan data count yang sudah diambil

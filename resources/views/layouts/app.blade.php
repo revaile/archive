@@ -135,6 +135,8 @@
 
             <!-- Profile and Logout -->
             <div class="border-t border-gray-200 dark:border-gray-700 p-4">
+                @auth
+                    @if(auth()->user()->roles === 'admin')
                 <a href="{{ route('profile.edit') }}"
                     class="flex items-center px-6 py-2 text-gray-700 hover:bg-gray-200 dark:text-gray -300 dark:hover:bg-gray-700 rounded-md transition duration-200">
                     <svg width="31" height="23" viewBox="0 0 31 23" fill="none"
@@ -146,7 +148,8 @@
 
                     <span x-show="open" class="ml-3">{{ __('Profile') }}</span>
                 </a>
-
+                @endif
+                @endauth
                 <form method="POST" action="{{ route('logout') }}" class="mt-2">
                     @csrf
                     <button type="submit"

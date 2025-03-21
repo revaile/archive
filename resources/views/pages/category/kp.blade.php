@@ -123,34 +123,41 @@
 
     <!-- Main Section -->
     <section class="py-12">
-        <div class="container mx-auto px-6 sm:px-10 lg:px-20 text-center">
-            <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Kerja Praktek</h1>
-
-            <!-- Filter Section Start -->
-          <!-- Filter Section Start -->
-          {{-- <div class="mt-6">
-            <form method="GET" action="{{ route('kp') }}">
-                <label for="yearFilter" class="text-gray-700 font-medium text-lg">Filter by Year:</label>
-                <select name="year" id="yearFilter" onchange="this.form.submit()"
-                    class="mt-2 px-4 py-2 border border-gray-300 roun`ded-lg text-gray-700">
-                    <option value="">All Years</option>
-                    @foreach ($years as $filterYear)
-                        <option value="{{ $filterYear }}"
-                            {{ request('year') == $filterYear ? 'selected' : '' }}>
-                            {{ $filterYear }}
-                        </option>
-                    @endforeach
-                </select>
-            </form>
-        </div> --}}
-            <!-- Filter Section End -->
-
-            <div class="mt-12">
-                <hr class="border-t-2 border-gray-300 mb-8">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 tracking-wide leading-tight">
+                Kerja Praktek
+            </h1>
+    
+            <div class="mt-6 flex justify-center">
+                <div class="relative w-56 h-1 bg-black rounded-full overflow-hidden">
+                    <div class="absolute top-0 left-0 h-full w-full animate-moving-gradient bg-gradient-to-r from-transparent via-white to-transparent"></div>
+                    <div class="absolute animate-dot-move left-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md"></div>
+                </div>
             </div>
         </div>
     </section>
-
+    
+    <style>
+    @keyframes moving-gradient {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    @keyframes dot-move {
+        0% { left: 0%; }
+        50% { left: 50%; }
+        100% { left: 100%; }
+    }
+    
+    .animate-moving-gradient {
+        animation: moving-gradient 2s infinite linear;
+    }
+    
+    .animate-dot-move {
+        animation: dot-move 2s infinite alternate ease-in-out;
+    }
+    </style>
+    
     <!-- JavaScript for Toggle Menu -->
     <script>
         const menuToggle = document.getElementById('menu-toggle');
@@ -167,7 +174,7 @@
     <!-- Hero Section End -->
 
     <!-- Content Section Start -->
-    <section class="container mx-auto max-w-7xl mb-20" data-aos="fade-up">
+    <section class="container mx-auto max-w-7xl mb-20 py-10" data-aos="fade-up">
         <div class="grid grid-cols-1 sm:grid-cols lg:grid-cols-3 gap-6 sm:px-10">
             @forelse ($kp as $document)
                 <!-- Book Card -->

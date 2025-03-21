@@ -31,7 +31,7 @@
 
 <body class="bg-gray-100 font-sans">
     <!-- Navbar Start -->
-    <header class="relative shadow">
+    <header class="relative shadow ">
         <div class="container mx-auto px-20 py-6 sm:py-10 flex items-center justify-between w-full">
             <!-- Logo -->
             <a href="#" class="flex flex-row items-center">
@@ -115,32 +115,43 @@
     </header>
     <!-- Navbar End -->
 
-    <section class="py-12">
+    <section class="py-12 ">
         <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-bold text-gray-800">Tugas Akhir</h1>
-
-
-            <!-- Filter Section Start -->
-            {{-- <div class="mt-6">
-                <form method="GET" action="{{ route('proposal') }}">
-                    <label for="yearFilter" class="text-gray-700 font-medium text-lg">Filter by Year:</label>
-                    <select name="year" id="yearFilter" onchange="this.form.submit()"
-                        class="mt-2 px-4 py-2 border border-gray-300 rounded-lg text-gray-700">
-                        <option value="">All Years</option>
-                        @foreach ($years as $filterYear)
-                            <option value="{{ $filterYear }}" {{ request('year') == $filterYear ? 'selected' : '' }}>
-                                {{ $filterYear }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </div> --}}
-            <!-- Filter Section End -->
-            <div class="mt-12">
-                <hr class="border-t-2 border-gray-300 mb-8">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 tracking-wide leading-tight">
+                Tugas Akhir
+            </h1>
+    
+            <div class="mt-6 flex justify-center">
+                <div class="relative w-56 h-1 bg-black rounded-full overflow-hidden">
+                    <div class="absolute top-0 left-0 h-full w-full animate-moving-gradient bg-gradient-to-r from-transparent via-white to-transparent"></div>
+                    <div class="absolute animate-dot-move left-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md"></div>
+                </div>
             </div>
         </div>
     </section>
+    
+    <style>
+    @keyframes moving-gradient {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    @keyframes dot-move {
+        0% { left: 0%; }
+        50% { left: 50%; }
+        100% { left: 100%; }
+    }
+    
+    .animate-moving-gradient {
+        animation: moving-gradient 2s infinite linear;
+    }
+    
+    .animate-dot-move {
+        animation: dot-move 2s infinite alternate ease-in-out;
+    }
+    </style>
+    
+    
 
 
     <!-- Hero Section End -->

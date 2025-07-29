@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class LoginRequest extends FormRequest
 {
@@ -50,6 +51,11 @@ class LoginRequest extends FormRequest
         ->post('https://archive-login-proxy.archive-login.workers.dev', [
             'username' => $this->email,
             'password' => $this->password,
+        ]);
+
+        Log::debug('Worker Login Response:', [
+            'status' => $response->status(),
+            'body' => $response->json(),
         ]);
     
         if ($response->successful()) {

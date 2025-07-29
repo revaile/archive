@@ -46,7 +46,7 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         // $credentials = ['username' => $this->email, 'password' => $this->password];
-        $response = $response = Http::timeout(15)
+        $response = $response = Http::timeout(30)
         ->withHeaders(['Content-Type' => 'application/json'])
         ->post('https://archive-login-proxy.archive-login.workers.dev', [
             'username' => $this->email,

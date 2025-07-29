@@ -44,8 +44,14 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $credentials = ['username' => $this->email, 'password' => $this->password];
-        $response = Http::withOptions(['verify' => false])->withToken(env('SALAM_API_TOKEN'))->baseUrl(env('SALAM_BASE_URL'))->post('Auth/Login', $credentials);
+        // $credentials = ['username' => $this->email, 'password' => $this->password];
+        $response = $response = Http::timeout(15)
+        ->withHeaders(['Content-Type' => 'application/json'])
+        ->post('https://archive-login-proxy.archive-login.workers.dev', [
+            'username' => $this->email,
+            'password' => $this->password,
+        ]);
+    
         if ($response->successful()) {
             $body = $response->json();
             if ($body['status']) {

@@ -103,11 +103,11 @@ class LoginRequest extends FormRequest
             ]);
         }
         
+        RateLimiter::clear($this->throttleKey());
+        
         throw ValidationException::withMessages([
             'email' => trans('auth.failed'),
         ]);
-
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**

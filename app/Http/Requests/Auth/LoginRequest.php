@@ -48,7 +48,7 @@ class LoginRequest extends FormRequest
         // $credentials = ['username' => $this->email, 'password' => $this->password];
         $response = $response = Http::timeout(30)
         ->withHeaders(['Content-Type' => 'application/json'])
-        ->post('https://archive-login-proxy.archive-login.workers.dev', [
+        ->post('https://api.uinsgd.ac.id/salam/v1/index.php/Auth/login', [
             'username' => $this->email,
             'password' => $this->password,
         ]);
